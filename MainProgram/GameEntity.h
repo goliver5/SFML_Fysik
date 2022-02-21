@@ -3,21 +3,21 @@
 #include<string>
 
 
-class GameEntity :public sf::Drawable
+class GameEntity : public sf::Drawable
 {
 private:
 	sf::Texture texture;
 	sf::Sprite sprite;
-	sf::IntRect rect;
+	sf::Shape* shape;
 
 	float windowWidth;
 	float windowHeight;
-	float speed;
+	sf::Vector2f speed;
 	bool isAlive;
 protected:
-	void moveSprite(int xDir, int yDir);
+	void moveSprite(sf::Vector2f speed);
 public:
-	GameEntity(float windowWidth, float windowHeight, std::string fileName, float speed = 5.0f);
+	GameEntity(float windowWidth, float windowHeight, std::string fileName, sf::Vector2f speed);
 	virtual~GameEntity();
 	bool collideWith(const GameEntity& other);
 

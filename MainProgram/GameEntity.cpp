@@ -1,22 +1,26 @@
 #include "GameEntity.h"
 
-void GameEntity::moveSprite(int xDir, int yDir)
+void GameEntity::moveSprite(sf::Vector2f speed)
 {
-	this->sprite.move(this->speed * xDir, this->speed * yDir);
-
-	
+	this->shape->move(speed);
 }
 
-GameEntity::GameEntity(float windowWidth, float windowHeight, std::string fileName, float speed)
+GameEntity::GameEntity(float windowWidth, float windowHeight, std::string fileName, sf::Vector2f speed)
 	:windowHeight(windowHeight),windowWidth(windowWidth), speed(speed)
 {
-	if (this->texture.loadFromFile("../Images/" + fileName))
+	if (fileName == "Ball")
+	{
+		this->shape = new sf::CircleShape(100);
+		this->shape->setFillColor(sf::Color::Blue);
+		this->shape->setOrigin(0, 0);
+	}
+	/*if (this->texture.loadFromFile("../Images/" + fileName))
 	{
 		this->sprite.setTexture(this->texture);
 	}
 	this->isAlive = false;
 	this->rect = sf::IntRect(0, 0, this->texture.getSize().x, this->texture.getSize().y);
-	this->sprite.setTextureRect(rect);
+	this->sprite.setTextureRect(rect);*/
 }
 
 GameEntity::~GameEntity()
@@ -85,5 +89,5 @@ float GameEntity::getWindowHeight()
 
 void GameEntity::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	target.draw(this->sprite);
+	target.draw(*this->shape);
 }
