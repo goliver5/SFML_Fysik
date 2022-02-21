@@ -19,13 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Fly.cpp" />
     <ClCompile Include="MainExam.cpp" />
-    <ClCompile Include="Tomato.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Fly.h" />
-    <ClInclude Include="Tomato.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{BFA3F943-8701-4E20-A183-D5C3C8375B61}</ProjectGuid>

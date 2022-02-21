@@ -15,22 +15,8 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Fly.cpp">
-      <Filter>Header Files</Filter>
-    </ClCompile>
     <ClCompile Include="MainExam.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
-    <ClCompile Include="Tomato.cpp">
-      <Filter>Header Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Fly.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Tomato.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>
