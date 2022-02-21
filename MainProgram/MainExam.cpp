@@ -32,7 +32,7 @@ int main()
 	sf::Font font;
 	initiateText(font, text);
 
-	Ball test(WIDTH,HEIGHT,sf::Vector2f(5,5), "Ball");
+	Ball test(WIDTH,HEIGHT,sf::Vector2f(1.0f,0.0f), "Ball");
 
 
 	int nrOfFliesSpawned = 5;
@@ -57,9 +57,8 @@ int main()
 
 				elapsedTimeSinceLastUpdate -= timePerFrame;
 				text.setString("Time: " + std::to_string(timePlayed.asSeconds()));
-
+				test.move();
 			}
-			test.move();
 
 		window.clear();
 		window.draw(text);

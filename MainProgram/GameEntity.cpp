@@ -12,7 +12,7 @@ GameEntity::GameEntity(float windowWidth, float windowHeight, std::string fileNa
 	{
 		this->shape = new sf::CircleShape(100);
 		this->shape->setFillColor(sf::Color::Blue);
-		this->shape->setOrigin(0, 0);
+		this->shape->setPosition(50, 50);
 	}
 	/*if (this->texture.loadFromFile("../Images/" + fileName))
 	{
