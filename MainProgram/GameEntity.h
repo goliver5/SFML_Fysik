@@ -17,7 +17,7 @@ private:
 protected:
 	void moveSprite();
 public:
-	GameEntity(float windowWidth, float windowHeight, std::string fileName, sf::Vector2f speed);
+	GameEntity(float windowWidth, float windowHeight, std::string fileName, sf::Vector2f speed, int radius);
 	virtual~GameEntity();
 	bool collideWith(const GameEntity& other);
 

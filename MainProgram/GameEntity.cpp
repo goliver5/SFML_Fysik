@@ -5,12 +5,12 @@ void GameEntity::moveSprite()
 	this->shape->move(velocity);
 }
 
-GameEntity::GameEntity(float windowWidth, float windowHeight, std::string fileName, sf::Vector2f speed)
+GameEntity::GameEntity(float windowWidth, float windowHeight, std::string fileName, sf::Vector2f speed, int radius)
 	:windowHeight(windowHeight),windowWidth(windowWidth), velocity(speed)
 {
 	if (fileName == "Ball")
 	{
-		this->shape = new sf::CircleShape(25);
+		this->shape = new sf::CircleShape(radius);
 		this->shape->setFillColor(sf::Color::Blue);
 		this->shape->setPosition(0, windowHeight-this->shape->getGlobalBounds().height);
 	}
