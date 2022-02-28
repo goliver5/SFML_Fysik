@@ -1,12 +1,12 @@
 #include "GameEntity.h"
 
-void GameEntity::moveSprite(sf::Vector2f speed)
+void GameEntity::moveSprite()
 {
-	this->shape->move(speed);
+	this->shape->move(velocity);
 }
 
 GameEntity::GameEntity(float windowWidth, float windowHeight, std::string fileName, sf::Vector2f speed)
-	:windowHeight(windowHeight),windowWidth(windowWidth), speed(speed)
+	:windowHeight(windowHeight),windowWidth(windowWidth), velocity(speed)
 {
 	if (fileName == "Ball")
 	{
@@ -85,6 +85,21 @@ float GameEntity::getWindowWidth()
 float GameEntity::getWindowHeight()
 {
 	return windowHeight;
+}
+
+float GameEntity::getSpeed()
+{
+	return sqrt(velocity.x* velocity.x + velocity.y* velocity.y);
+}
+
+sf::Vector2f GameEntity::getVelocity()
+{
+	return this->velocity;
+}
+
+void GameEntity::setVelocity(sf::Vector2f newVelocity)
+{
+	this->velocity = newVelocity;
 }
 
 void GameEntity::draw(sf::RenderTarget& target, sf::RenderStates states) const

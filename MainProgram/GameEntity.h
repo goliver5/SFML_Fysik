@@ -12,10 +12,10 @@ private:
 
 	float windowWidth;
 	float windowHeight;
-	sf::Vector2f speed;
+	sf::Vector2f velocity;
 	bool isAlive;
 protected:
-	void moveSprite(sf::Vector2f speed);
+	void moveSprite();
 public:
 	GameEntity(float windowWidth, float windowHeight, std::string fileName, sf::Vector2f speed);
 	virtual~GameEntity();
@@ -31,6 +31,9 @@ public:
 	void disapear();//use if they need to despawn
 	float getWindowWidth();
 	float getWindowHeight();
+	float getSpeed();
+	sf::Vector2f getVelocity();
+	void setVelocity(sf::Vector2f newVelocity);
 
 
 	virtual void move() = 0;

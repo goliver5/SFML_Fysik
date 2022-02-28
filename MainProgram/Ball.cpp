@@ -12,5 +12,5 @@ Ball::~Ball()
 
 void Ball::move()
 {
-	this->moveSprite(this->speed);
+	this->moveSprite();
 }
