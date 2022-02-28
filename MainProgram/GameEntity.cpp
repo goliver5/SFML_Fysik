@@ -10,9 +10,9 @@ GameEntity::GameEntity(float windowWidth, float windowHeight, std::string fileNa
 {
 	if (fileName == "Ball")
 	{
-		this->shape = new sf::CircleShape(100);
+		this->shape = new sf::CircleShape(25);
 		this->shape->setFillColor(sf::Color::Blue);
-		this->shape->setPosition(50, 50);
+		this->shape->setPosition(0, windowHeight-this->shape->getGlobalBounds().height);
 	}
 	/*if (this->texture.loadFromFile("../Images/" + fileName))
 	{

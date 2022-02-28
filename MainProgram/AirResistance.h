@@ -16,4 +16,5 @@ void AirResistanceTest(Ball& ball)
 	gravityVector.y = -1 * 9.82;
 
 	sf::Vector2f newVelocity = ball.getVelocity() - (airVector + gravityVector);
+	ball.setVelocity(newVelocity);
 }

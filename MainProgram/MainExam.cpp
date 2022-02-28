@@ -34,7 +34,7 @@ int main()
 	sf::Font font;
 	initiateText(font, text);
 
-	Ball test(WIDTH,HEIGHT,sf::Vector2f(1.0f,0.0f), "Ball");
+	Ball test(WIDTH,HEIGHT,sf::Vector2f(1.0f,-1.0f), "Ball");
 
 	Ball collisionBall1(WIDTH, HEIGHT, sf::Vector2f(0.0f, 0.0f), "Ball");
 	Ball collisionBall2(WIDTH, HEIGHT, sf::Vector2f(0.0f, 0.0f), "Ball");
@@ -42,7 +42,7 @@ int main()
 
 	while (window.isOpen())
 	{
-
+		
 			sf::Event event;
 			while (window.pollEvent(event))
 			{
@@ -62,6 +62,7 @@ int main()
 				text.setString("Time: " + std::to_string(timePlayed.asSeconds()));
 				test.move();
 			}
+		//AirResistanceTest(test);
 
 		window.clear();
 
