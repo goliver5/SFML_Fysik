@@ -36,7 +36,7 @@ int main()
 	sf::Font font;
 	initiateText(font, text);
 
-	Ball test(WIDTH,HEIGHT,sf::Vector2f(2.0f,-3.0f), "Ball");
+	Ball test(WIDTH,HEIGHT,sf::Vector2f(2.0f,3.0f), "Ball");
 
 	Ball collisionBall1(WIDTH, HEIGHT, sf::Vector2f(0.0f, 0.0f), "Ball");
 	Ball collisionBall2(WIDTH, HEIGHT, sf::Vector2f(0.0f, 0.0f), "Ball");

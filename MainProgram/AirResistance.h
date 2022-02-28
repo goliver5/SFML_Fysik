@@ -23,5 +23,5 @@ void AirResistanceTest(Ball& ball)
 	sf::Vector2f newVelocity2 = sf::Vector2f(0, -(7.874 * 4.f / 3.f * PI * ball.getRadius() * ball.getRadius() * ball.getRadius()) * 9.82) - coefficient * speedSquared * unitVector;
 
 	sf::Vector2f newVelocity = ball.getVelocity() + newVelocity2;
-	ball.setVelocity(newVelocity);
+	//ball.setVelocity(newVelocity);
 }
