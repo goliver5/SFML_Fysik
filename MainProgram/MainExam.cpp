@@ -22,6 +22,8 @@ void initiateText(sf::Font& font, sf::Text& text);
 
 int main()
 {
+	//1 Pixel is 1 cm
+
 	std::srand((unsigned)time(0));
 	sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "Fysik projekt");
 
@@ -34,7 +36,7 @@ int main()
 	sf::Font font;
 	initiateText(font, text);
 
-	Ball test(WIDTH,HEIGHT,sf::Vector2f(1.0f,-1.0f), "Ball");
+	Ball test(WIDTH,HEIGHT,sf::Vector2f(2.0f,-3.0f), "Ball");
 
 	Ball collisionBall1(WIDTH, HEIGHT, sf::Vector2f(0.0f, 0.0f), "Ball");
 	Ball collisionBall2(WIDTH, HEIGHT, sf::Vector2f(0.0f, 0.0f), "Ball");
@@ -61,8 +63,10 @@ int main()
 				elapsedTimeSinceLastUpdate -= timePerFrame;
 				text.setString("Time: " + std::to_string(timePlayed.asSeconds()));
 				test.move();
+				AirResistanceTest(test);
+				std::cout << "Speed: " << test.getSpeed() << std::endl; 
 			}
-		//AirResistanceTest(test);
+		
 
 		window.clear();
 

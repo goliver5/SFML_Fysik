@@ -14,6 +14,7 @@ private:
 	float windowHeight;
 	sf::Vector2f velocity;
 	bool isAlive;
+	int radius;
 protected:
 	void moveSprite();
 public:
@@ -33,6 +34,7 @@ public:
 	float getWindowHeight();
 	float getSpeed();
 	sf::Vector2f getVelocity();
+	float getRadius();
 	void setVelocity(sf::Vector2f newVelocity);
 
 

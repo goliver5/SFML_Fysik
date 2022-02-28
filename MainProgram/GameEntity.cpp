@@ -6,7 +6,7 @@ void GameEntity::moveSprite()
 }
 
 GameEntity::GameEntity(float windowWidth, float windowHeight, std::string fileName, sf::Vector2f speed, int radius)
-	:windowHeight(windowHeight),windowWidth(windowWidth), velocity(speed)
+	:windowHeight(windowHeight),windowWidth(windowWidth), velocity(speed), radius(radius)
 {
 	if (fileName == "Ball")
 	{
@@ -51,7 +51,7 @@ bool GameEntity::collideWithFloat(const sf::FloatRect& other)
 
 void GameEntity::setPosition(float xPos, float yPos)
 {
-	this->sprite.setPosition(xPos, yPos);
+	this->shape->setPosition(xPos, yPos);
 }
 
 void GameEntity::Spawn(float xPos, float yPos)
@@ -95,6 +95,12 @@ float GameEntity::getSpeed()
 sf::Vector2f GameEntity::getVelocity()
 {
 	return this->velocity;
+}
+
+float GameEntity::getRadius()
+{
+	//Convert from cm to m
+	return (this->radius)*(1.f/100.f);
 }
 
 void GameEntity::setVelocity(sf::Vector2f newVelocity)
