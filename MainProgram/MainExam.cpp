@@ -36,9 +36,9 @@ int main()
 
 	Ball test(WIDTH,HEIGHT,sf::Vector2f(1.0f,0.0f), "Ball");
 
-
-	int nrOfFliesSpawned = 5;
-	int nrOffDespawn = 0;
+	Ball collisionBall1(WIDTH, HEIGHT, sf::Vector2f(0.0f, 0.0f), "Ball");
+	Ball collisionBall2(WIDTH, HEIGHT, sf::Vector2f(0.0f, 0.0f), "Ball");
+	
 
 	while (window.isOpen())
 	{
@@ -56,6 +56,7 @@ int main()
 			elapsedTimeSinceLastUpdate += clock.restart();
 			while (elapsedTimeSinceLastUpdate > timePerFrame)
 			{
+				CollisionTest(collisionBall1, collisionBall2);
 
 				elapsedTimeSinceLastUpdate -= timePerFrame;
 				text.setString("Time: " + std::to_string(timePlayed.asSeconds()));
@@ -63,6 +64,10 @@ int main()
 			}
 
 		window.clear();
+
+		//window.draw(collisionBall1);
+		//window.draw(collisionBall2);
+
 		window.draw(text);
 		window.draw(test);
 		window.display();
