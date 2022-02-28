@@ -1,5 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include "Ball.h"
+#include "AirResistance.h"
+#include "CollisionTest.h"
 #include<iostream>
 
 #ifdef _DEBUG

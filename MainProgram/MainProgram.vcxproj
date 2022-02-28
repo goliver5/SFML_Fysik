@@ -24,7 +24,9 @@
     <ClCompile Include="MainExam.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AirResistance.h" />
     <ClInclude Include="Ball.h" />
+    <ClInclude Include="CollisionTest.h" />
     <ClInclude Include="GameEntity.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
