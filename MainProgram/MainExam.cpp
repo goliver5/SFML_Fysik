@@ -23,20 +23,22 @@ void initiateText(sf::Font& font, sf::Text& text);
 int main()
 {
 	//1 Pixel is 1 cm
+	float fps = 60;
+	float deltaTime = 1.f / fps;
 
 	std::srand((unsigned)time(0));
 	sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "Fysik projekt");
 
 	sf::Clock clock;
 	sf::Time elapsedTimeSinceLastUpdate = sf::Time::Zero;
-	sf::Time timePerFrame = sf::seconds(1.0f / 60.0f);
+	sf::Time timePerFrame = sf::seconds(deltaTime);
 	sf::Time timePlayed = sf::Time::Zero;
 
 	sf::Text text;
 	sf::Font font;
 	initiateText(font, text);
 
-	Ball test(WIDTH,HEIGHT,sf::Vector2f(2.0f,3.0f), "Ball");
+	Ball test(WIDTH,HEIGHT,sf::Vector2f(5.0f,12.0f), "Ball");
 
 	Ball collisionBall1(WIDTH, HEIGHT, sf::Vector2f(0.0f, 0.0f), "Ball");
 	Ball collisionBall2(WIDTH, HEIGHT, sf::Vector2f(0.0f, 0.0f), "Ball");
@@ -63,7 +65,7 @@ int main()
 				elapsedTimeSinceLastUpdate -= timePerFrame;
 				text.setString("Time: " + std::to_string(timePlayed.asSeconds()));
 				test.move();
-				AirResistanceTest(test);
+				AirResistanceTest(test, deltaTime);
 				std::cout << "Speed: " << test.getSpeed() << std::endl; 
 			}
 		
