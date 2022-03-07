@@ -67,7 +67,7 @@ bool GameEntity::getIsSpawned() const
 
 sf::FloatRect GameEntity::getBounds() const
 {
-	return this->sprite.getGlobalBounds();
+	return this->shape->getGlobalBounds();
 }
 
 

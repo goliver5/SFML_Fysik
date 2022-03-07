@@ -26,6 +26,9 @@ int main()
 	float fps = 60;
 	float deltaTime = 1.f / fps;
 
+	bool once1 = true;
+	bool once2 = true;
+
 	std::srand((unsigned)time(0));
 	sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "Fysik projekt");
 
@@ -38,7 +41,7 @@ int main()
 	sf::Font font;
 	initiateText(font, text);
 
-	Ball test(WIDTH,HEIGHT,sf::Vector2f(5.0f,12.0f), "Ball");
+	Ball test(WIDTH,HEIGHT,sf::Vector2f(4.0f,12.0f), "Ball", 15);
 
 	Ball collisionBall1(WIDTH, HEIGHT, sf::Vector2f(0.0f, 0.0f), "Ball");
 	Ball collisionBall2(WIDTH, HEIGHT, sf::Vector2f(0.0f, 0.0f), "Ball");
@@ -65,8 +68,8 @@ int main()
 				elapsedTimeSinceLastUpdate -= timePerFrame;
 				text.setString("Time: " + std::to_string(timePlayed.asSeconds()));
 				test.move();
-				AirResistanceTest(test, deltaTime);
-				std::cout << "Speed: " << test.getSpeed() << std::endl; 
+				AirResistanceTest(test, deltaTime, once1, once2);
+				//std::cout << "Speed: " << test.getSpeed() << std::endl; 
 			}
 		
 
