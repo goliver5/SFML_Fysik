@@ -41,11 +41,11 @@ int main()
 	sf::Font font;
 	initiateText(font, text);
 
-	Ball test(WIDTH,HEIGHT,sf::Vector2f(4.0f,12.0f), "Ball", 15);
+	//Ball test(WIDTH,HEIGHT,sf::Vector2f(4.0f,12.0f), "Ball", 15);
 
-	Ball collisionBall1(WIDTH, HEIGHT, sf::Vector2f(0.0f, 0.0f), "Ball");
-	Ball collisionBall2(WIDTH, HEIGHT, sf::Vector2f(0.0f, 0.0f), "Ball");
-	
+	Ball collisionBall1(WIDTH, HEIGHT, sf::Vector2f(10.0f, 0.0f), "Ball");
+	Ball collisionBall2(WIDTH, HEIGHT, sf::Vector2f(100.0f, 0.0f), "Ball");
+	InitializeCollisionTest(collisionBall1, collisionBall2);
 
 	while (window.isOpen())
 	{
@@ -65,21 +65,22 @@ int main()
 			{
 				CollisionTest(collisionBall1, collisionBall2);
 
+
 				elapsedTimeSinceLastUpdate -= timePerFrame;
 				text.setString("Time: " + std::to_string(timePlayed.asSeconds()));
-				test.move();
-				AirResistanceTest(test, deltaTime, once1, once2);
+				//test.move();
+				//AirResistanceTest(test, deltaTime, once1, once2);
 				//std::cout << "Speed: " << test.getSpeed() << std::endl; 
 			}
 		
 
 		window.clear();
 
-		//window.draw(collisionBall1);
-		//window.draw(collisionBall2);
+		window.draw(collisionBall1);
+		window.draw(collisionBall2);
 
 		window.draw(text);
-		window.draw(test);
+		//window.draw(test);
 		window.display();
 	}
 
