@@ -29,10 +29,8 @@ GameEntity::~GameEntity()
 
 bool GameEntity::collideWith(const GameEntity& other)
 {
-	return this->sprite.getGlobalBounds().intersects(other.getBounds());
+	return this->shape->getGlobalBounds().intersects(other.shape->getGlobalBounds());
 }
-
-
 
 void GameEntity::increaseScale()
 {
