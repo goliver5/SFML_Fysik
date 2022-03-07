@@ -97,6 +97,11 @@ sf::Vector2f GameEntity::getVelocity()
 	return this->velocity;
 }
 
+sf::Vector2f GameEntity::getPosition()
+{
+	return sf::Vector2f(this->shape->getGlobalBounds().left+this->shape->getGlobalBounds().width/2, this->shape->getGlobalBounds().top + this->shape->getGlobalBounds().height / 2);
+}
+
 float GameEntity::getRadius()
 {
 	//Convert from cm to m

@@ -14,12 +14,11 @@ void AirResistanceTest(Ball& ball, float deltaTime, bool &once1, bool &once2)
 	float timeConstant = deltaTime * ((1.f / 60.f) / deltaTime);	//Our deltaTime, has the other part just to keep the same basis as the start
 
 	const int PI = 3.141529;		//Pi or close enough
-	float coefficient = 0.5;		//How much the drag affects the object depends on its shape, and we found that our sphere roughly has this coefficient
+	float coefficient = 0.4;		//How much the drag affects the object depends on its shape, and we found that our sphere roughly has this coefficient
 	double crossSection = ballRadius * ballRadius * PI;
 
 	//float mass = density * (4.f / 3.f * PI * ballRadius * ballRadius * ballRadius); //We calculate the mass by: m = pV (p = density, V = volume)
 	
-	//Now it is time for the math
 	//Air resistance (or drag)
 	float airResistanceConstant = 0.5 * airDensity * coefficient * crossSection;	//The constant part of the drag force (none of these values should change during runtime)
 	float dragForce = speedSquared * airResistanceConstant;							//Gives the force of the drag

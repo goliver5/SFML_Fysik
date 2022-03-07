@@ -34,6 +34,7 @@ public:
 	float getWindowHeight();
 	float getSpeed();
 	sf::Vector2f getVelocity();
+	sf::Vector2f getPosition();
 	float getRadius();
 	void setVelocity(sf::Vector2f newVelocity);
 
