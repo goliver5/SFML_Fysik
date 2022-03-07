@@ -10,27 +10,28 @@ void InitializeCollisionTest(Ball& ball1, Ball& ball2)
 	ball2.setVelocity(sf::Vector2f(-2.0f, 0.0f));
 }
 
-void CollisionTest(Ball &ball1, Ball &ball2)
+void CollisionTest(Ball &ball1, Ball &ball2, bool &collisionOnce)
 {
 	//ball1.collideWith(ball2);
-	int massball1 = 50;//check if kg,
-	int massball2 = 50;
+	float massball1 = 50.0f;//check if kg,
+	float massball2 = 50.0f;
 	int ballvelocity[2];
 
 	sf::Vector2f VelocityAfterCollision;
-	int massnegative, massPositive;
+	float massnegative, massPositive;
 
-	if (ball1.collideWith(ball2))
+	if (ball1.collideWith(ball2) && !collisionOnce)
 	{
+		collisionOnce == true;
 		//ball1 velocity after collision calculation
 		massnegative = massball1 - massball2;
 		massPositive = massball1 + massball2;
-		int massValue = massnegative / massPositive;
+		float massValue = massnegative / massPositive;
 		sf::Vector2f v1Before, v2Before;
 		v1Before.x = massValue * ball1.getVelocity().x;
 		v1Before.y = massValue * ball1.getVelocity().y;
 
-		int secondValue = (2 * massball2) / (massball1 + massball2);
+		float secondValue = (2 * massball2) / (massball1 + massball2);
 		v2Before.x = secondValue * ball2.getVelocity().x;
 		v2Before.y = secondValue * ball2.getVelocity().y;
 
@@ -39,12 +40,12 @@ void CollisionTest(Ball &ball1, Ball &ball2)
 		//massnegative = (massnegative*ball1.getVelocity().x)
 
 		//ball1 velocity after collision calculation
-		int firstValueSecondBall = (2 * massball2) / massPositive;
+		float firstValueSecondBall = (2 * massball1) / massPositive;
 		sf::Vector2f tempball1, tempball2;
 		tempball1.x = firstValueSecondBall * ball1.getVelocity().x;
-		tempball2.y = firstValueSecondBall * ball1.getVelocity().y;
+		tempball1.y = firstValueSecondBall * ball1.getVelocity().y;
 
-		int secondValueSecondBall = (massball2 - massball1) / massPositive;
+		float secondValueSecondBall = (massball2 - massball1) / massPositive;
 		tempball2.x = secondValueSecondBall * ball2.getVelocity().x;
 		tempball2.y = secondValueSecondBall * ball2.getVelocity().y;
 		sf::Vector2f ball2FinalVelocity = tempball1 + tempball2;
