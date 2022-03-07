@@ -3,6 +3,8 @@
 #include "AirResistance.h"
 #include "CollisionTest.h"
 #include<iostream>
+#include<vector>
+#include<fstream>
 
 #ifdef _DEBUG
 #pragma comment(lib, "sfml-window-d.lib")
@@ -19,6 +21,7 @@ const int HEIGHT = 600;
 const int CAP = 50;
 
 void initiateText(sf::Font& font, sf::Text& text);
+void writeToFile(std::string filename, std::vector<sf::Vector2f>& ball);
 
 int main()
 {
@@ -28,6 +31,9 @@ int main()
 
 	bool once1 = true;
 	bool once2 = true;
+
+	//ball values storage
+	std::vector<sf::Vector2f> values;
 
 	std::srand((unsigned)time(0));
 	sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "Fysik projekt");
@@ -47,6 +53,8 @@ int main()
 	Ball collisionBall2(WIDTH, HEIGHT, sf::Vector2f(100.0f, 0.0f), "Ball");
 	InitializeCollisionTest(collisionBall1, collisionBall2);
 
+	window.setKeyRepeatEnabled(false);
+
 	while (window.isOpen())
 	{
 		
@@ -57,6 +65,19 @@ int main()
 				{
 					window.close();
 				}
+				if (event.type == sf::Event::KeyPressed)
+				{
+					if (event.key.code == sf::Keyboard::Space)
+					{
+						values.push_back(collisionBall1.getVelocity());
+						std::cout << collisionBall2.getVelocity().x << std::endl;
+					}
+					if (event.key.code == sf::Keyboard::S)
+					{
+						writeToFile("test.txt", values);
+					}
+				}
+				
 			}
 		
 			timePlayed += clock.getElapsedTime();
@@ -71,8 +92,17 @@ int main()
 				//test.move();
 				//AirResistanceTest(test, deltaTime, once1, once2);
 				//std::cout << "Speed: " << test.getSpeed() << std::endl; 
+
+				/*if(event.type = (sf::Event::KeyPressed))
+				{
+					switch (event.type)
+					{
+						case 
+					}
+				}*/
+
 			}
-		
+
 
 		window.clear();
 
@@ -94,4 +124,23 @@ void initiateText(sf::Font& font, sf::Text& text)
 	text.setFont(font);
 	text.setFillColor(sf::Color::Green);
 	text.setPosition(500.0f, 100.0f);
+}
+
+void writeToFile(std::string filename, std::vector<sf::Vector2f>& ball)
+{
+	std::ofstream file{ filename };
+	std::ofstream out;
+	//out.open(filename);
+	out.open(filename);
+	if (out.is_open())
+	{
+		for (int i = 0; i < ball.size(); i++)
+		{
+			out << "Ball velocity: (" << ball[i].x << ", " << ball[i].y << ")" << std::endl;
+		}
+	}
+	else
+	{
+		std::cout << "\nCouldnt write to this file\n";
+	}
 }
