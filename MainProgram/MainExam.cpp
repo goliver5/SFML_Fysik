@@ -34,7 +34,6 @@ int main()
 
 	bool once1 = true;
 	bool once2 = true;
-	bool collisionOnce = false;
 
 	//ball values storage
 	std::vector<sf::Vector2f> values;
@@ -90,7 +89,7 @@ int main()
 			elapsedTimeSinceLastUpdate += clock.restart();
 			while (elapsedTimeSinceLastUpdate > timePerFrame)
 			{
-				CollisionTest(collisionBall1, collisionBall2, collisionOnce);
+				CollisionTest(collisionBall1, collisionBall2);
 				counter++;
 				if (counter == 15)
 				{
