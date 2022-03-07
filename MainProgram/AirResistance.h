@@ -8,7 +8,7 @@ void AirResistanceTest(Ball& ball, float deltaTime, bool &once1, bool &once2)
 
 	//Densities
 	float airDensity = 1.225;		//Density of air
-	float density = 1.000f * 1000*0.02f;	//Density of object
+	float density = 0.500f * 1000.f;	//Density of object
 
 	//Reduce the text amount and improves performance of the program
 	float ballRadius = ball.getRadius();
@@ -32,8 +32,8 @@ void AirResistanceTest(Ball& ball, float deltaTime, bool &once1, bool &once2)
 	gravityVector.y = mass * (-1) * 9.82;	//Force is negative since we view falling as minus in speed
 
 	//Now we combine the two acting forces
-	sf::Vector2f actingForces = gravityVector - coefficient * speedSquared * unitVector;
-	//sf::Vector2f newVelocity2 = sf::Vector2f(0, mass * -(9.82)) + airVector;
+	//sf::Vector2f actingForces = gravityVector + coefficient * speedSquared * unitVector;
+	sf::Vector2f actingForces = gravityVector + airVector;
 
 	//F = ma
 	//F = actingForces
@@ -41,8 +41,8 @@ void AirResistanceTest(Ball& ball, float deltaTime, bool &once1, bool &once2)
 	//a = dV/dT
 
 
-	sf::Vector2f newAcceleration = actingForces / (float)(mass);
-	sf::Vector2f newVelocity = ball.getVelocity() + (newAcceleration * deltaTime);
+	sf::Vector2f newAcceleration = actingForces * deltaTime * ((1.f/60.f)/deltaTime) / (float)(mass);
+	sf::Vector2f newVelocity = ball.getVelocity() + (newAcceleration);
 	if (newVelocity.y <= 0.0f && once1)
 	{
 		
