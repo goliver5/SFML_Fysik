@@ -3,26 +3,25 @@
 
 void InitializeCollisionTest(Ball& ball1, Ball& ball2)
 {
-	ball1.setPosition(100.0f, 200.0f);
+	ball1.setPosition(100.0f, 210.0f);
 	ball2.setPosition(300.0f, 200.0f);
 
 	ball1.setVelocity(sf::Vector2f(2.0f, 0.0f));
 	ball2.setVelocity(sf::Vector2f(-2.0f, 0.0f));
 }
 
-void CollisionTest(Ball &ball1, Ball &ball2, bool &collisionOnce)
+void CollisionTest(Ball &ball1, Ball &ball2)
 {
 	//ball1.collideWith(ball2);
-	float massball1 = 50.0f;//check if kg,
+	float massball1 = 100.0f;//check if kg,
 	float massball2 = 50.0f;
 	int ballvelocity[2];
 
 	sf::Vector2f VelocityAfterCollision;
 	float massnegative, massPositive;
 
-	if (ball1.collideWith(ball2) && !collisionOnce)
+	if (ball1.collideWith(ball2))
 	{
-		collisionOnce == true;
 		//ball1 velocity after collision calculation
 		massnegative = massball1 - massball2;
 		massPositive = massball1 + massball2;

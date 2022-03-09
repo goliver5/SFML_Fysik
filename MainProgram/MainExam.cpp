@@ -21,20 +21,23 @@ const int HEIGHT = 600;
 const int CAP = 50;
 
 void initiateText(sf::Font& font, sf::Text& text);
-void writeToFile(std::string filename, std::vector<sf::Vector2f>& ball);
+void writeToFile(std::string filename, std::vector<sf::Vector2f>& ball, std::vector<sf::Vector2f>& position);
+void saveValues(std::vector<sf::Vector2f>& ball, std::vector<sf::Vector2f>& position, Ball& ball1);
 
 int main()
 {
 	//1 Pixel is 1 cm
 	float fps = 60;
 	float deltaTime = 1.f / fps;
+	
+	int counter = 0;
 
 	bool once1 = true;
 	bool once2 = true;
-	bool collisionOnce = false;
 
 	//ball values storage
 	std::vector<sf::Vector2f> values;
+	std::vector<sf::Vector2f> position;
 
 	std::srand((unsigned)time(0));
 	sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "Fysik projekt");
@@ -71,11 +74,12 @@ int main()
 					if (event.key.code == sf::Keyboard::Space)
 					{
 						values.push_back(collisionBall1.getVelocity());
-						std::cout << collisionBall2.getVelocity().x << std::endl;
+						position.push_back(collisionBall1.getPosition());
+						std::cout << "Position: (" << collisionBall1.getPosition().x << ", " << collisionBall1.getPosition().y << ") " << " velocity: (" << collisionBall1.getVelocity().x << ", " << collisionBall1.getVelocity().y << ")" << std::endl;
 					}
 					if (event.key.code == sf::Keyboard::S)
 					{
-						writeToFile("test.txt", values);
+						writeToFile("test.txt", values, position);
 					}
 				}
 				
@@ -85,8 +89,13 @@ int main()
 			elapsedTimeSinceLastUpdate += clock.restart();
 			while (elapsedTimeSinceLastUpdate > timePerFrame)
 			{
-				CollisionTest(collisionBall1, collisionBall2, collisionOnce);
-
+				CollisionTest(collisionBall1, collisionBall2);
+				counter++;
+				if (counter == 15)
+				{
+					saveValues(values, position, collisionBall1);
+					counter = 0;
+				}
 
 				elapsedTimeSinceLastUpdate -= timePerFrame;
 				text.setString("Time: " + std::to_string(timePlayed.asSeconds()));
@@ -127,7 +136,7 @@ void initiateText(sf::Font& font, sf::Text& text)
 	text.setPosition(500.0f, 100.0f);
 }
 
-void writeToFile(std::string filename, std::vector<sf::Vector2f>& ball)
+void writeToFile(std::string filename, std::vector<sf::Vector2f>& ball, std::vector<sf::Vector2f>& position)
 {
 	std::ofstream file{ filename };
 	std::ofstream out;
@@ -137,11 +146,17 @@ void writeToFile(std::string filename, std::vector<sf::Vector2f>& ball)
 	{
 		for (int i = 0; i < ball.size(); i++)
 		{
-			out << "Ball velocity: (" << ball[i].x << ", " << ball[i].y << ")" << std::endl;
+			out << "Position: (" << position[i].x << ", " << position[i].y << ") " << " velocity: (" << ball[i].x << ", " << ball[i].y << ")" << std::endl;
 		}
 	}
 	else
 	{
 		std::cout << "\nCouldnt write to this file\n";
 	}
+}
+
+void saveValues(std::vector<sf::Vector2f>& values, std::vector<sf::Vector2f>& position, Ball &ball)
+{
+	values.push_back(ball.getVelocity());
+	position.push_back(ball.getPosition());
 }
