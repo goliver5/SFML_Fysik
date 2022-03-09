@@ -10,6 +10,53 @@ void InitializeCollisionTest(Ball& ball1, Ball& ball2)
 	ball2.setVelocity(sf::Vector2f(0.f, 2.0f));
 }
 
+void InitializeMultipleBallsCollisionTest(std::vector<Ball> balls)
+{
+	if (balls.size() == 8)
+	{
+		for (int i = 0; i < balls.size(); i++)
+		{
+			switch (i)
+			{
+			case 0:
+				balls[i].setPosition(100,55);
+				balls[i].setVelocity(sf::Vector2f(-2.f, 1.f));
+				break;
+			case 1:
+				balls[i].setPosition(340, 255);
+				balls[i].setVelocity(sf::Vector2f(2.f, 1.f));
+				break;
+			case 2:
+				balls[i].setPosition(260, 455);
+				balls[i].setVelocity(sf::Vector2f(-2.f, 2.f));
+				break;
+			case 3:
+				balls[i].setPosition(115, 335);
+				balls[i].setVelocity(sf::Vector2f(-1.f, -2.f));
+				break;
+			case 4:
+				balls[i].setPosition(120, 235);
+				balls[i].setVelocity(sf::Vector2f(-1.f, 1.f));
+				break;
+			case 5:
+				balls[i].setPosition(420, 200);
+				balls[i].setVelocity(sf::Vector2f(-2.f, -1.f));
+				break;
+			case 6:
+				balls[i].setPosition(510, 255);
+				balls[i].setVelocity(sf::Vector2f(2.f, -1.f));
+				break;
+			case 7:
+				balls[i].setPosition(620, 315);
+				balls[i].setVelocity(sf::Vector2f(-1.f, 1.f));
+				break;
+			default:
+				break;
+			}
+		}
+	}
+}
+
 void removeCollisionTest(Ball& ball1, Ball& ball2)
 {
 	ball1.setPosition(1000.0f, 1000.0f);

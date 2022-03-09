@@ -63,6 +63,9 @@ int main()
 
 	Ball test(WIDTH,HEIGHT,sf::Vector2f(4.0f,12.0f), "Ball", 15);
 
+	Ball collisionBall1(WIDTH, HEIGHT, sf::Vector2f(10.0f, 0.0f), "Ball");
+	Ball collisionBall2(WIDTH, HEIGHT, sf::Vector2f(10.0f, 0.0f), "Ball");
+
 	collisionBalls.push_back(Ball(WIDTH, HEIGHT, sf::Vector2f(10.0f, 0.0f), "Ball"));
 	timer.push_back(sf::Vector2i(0,11));
 	collisionBalls.push_back(Ball(WIDTH, HEIGHT, sf::Vector2f(100.0f, 0.0f), "Ball"));
@@ -74,7 +77,7 @@ int main()
 		collisionBalls[i].setPosition(i * 100, i * 100);
 		timer.push_back(sf::Vector2i(0, 11));
 	}
-	InitializeCollisionTest(collisionBalls[0], collisionBalls[1]);
+	InitializeCollisionTest(collisionBall1, collisionBall2);
 
 	window.setKeyRepeatEnabled(false);
 
@@ -106,16 +109,23 @@ int main()
 					}
 					if (event.key.code == sf::Keyboard::Num1)
 					{
-						InitializeCollisionTest(collisionBalls[0], collisionBalls[1]);
+						InitializeCollisionTest(collisionBall1, collisionBall2);
 						removeAirResistanceTest(test);
 						markerPos.clear();
 						whichTest = 1;
 					}
 					if (event.key.code == sf::Keyboard::Num2)
 					{
-						removeCollisionTest(collisionBalls[0], collisionBalls[1]);
+						removeCollisionTest(collisionBall1, collisionBall2);
 						InitializeAirResistanceTest(test, once1, once2);
 						whichTest = 2;
+						markerPos.clear();
+					}
+					if (event.key.code == sf::Keyboard::Num3)
+					{
+						//removeCollisionTest(collisionBalls[0], collisionBalls[1]);
+						InitializeMultipleBallsCollisionTest(collisionBalls);
+						whichTest = 3;
 						markerPos.clear();
 					}
 				}
@@ -136,6 +146,10 @@ int main()
 					default:
 						break;
 					case 1:
+						markerPos.push_back(collisionBall1.getPosition() - sf::Vector2f(2, 2));
+						markerPos.push_back(collisionBall2.getPosition() - sf::Vector2f(2, 2));
+						break;
+					case 3:
 						for (size_t i = 0; i < collisionBalls.size(); i++)
 						{
 							markerPos.push_back(collisionBalls[i].getPosition() - sf::Vector2f(2, 2));
@@ -151,6 +165,14 @@ int main()
 				default: 
 					break;
 				case 1:
+					if (collisionBall1.collideWith(collisionBall2))
+					{
+						CollisionTest(collisionBall1, collisionBall2);
+					}
+					collisionBall1.move();
+					collisionBall2.move();
+					break;
+				case 3:
 					for (int i = 0; i < collisionBalls.size(); i++)
 					{
 						for (int b = i+1; b < collisionBalls.size(); b++)
@@ -173,7 +195,6 @@ int main()
 						if (timer[i].x != 0) timer[i].x = (timer[i].x + 1) % timer[i].y;
 					}
 					
-					//CollisionTest(collisionBall1, collisionBall2);
 					break;
 				case 2:
 					AirResistanceTest(test, deltaTime, once1, once2);
@@ -185,25 +206,33 @@ int main()
 
 
 		window.clear();
-		for (int i = 0; i < markerPos.size(); i++)
+		if (whichTest != 3)
 		{
-			marker.setPosition(markerPos[i]);
-			window.draw(marker);
+			for (int i = 0; i < markerPos.size(); i++)
+			{
+				marker.setPosition(markerPos[i]);
+				window.draw(marker);
+			}
 		}
+		
 	
 		switch (whichTest)
 		{
 		default:
 			break;
 		case 1:
-			for (int i = 0; i < collisionBalls.size(); i++)
-			{
-				window.draw(collisionBalls[i]);
-			}
+			window.draw(collisionBall1);
+			window.draw(collisionBall2);
 			break;
 		case 2:
 			window.draw(test);
 			break;
+		case 3:
+			for (int i = 0; i < collisionBalls.size(); i++)
+			{
+				window.draw(collisionBalls[i]);
+			}
+		break;
 		}
 		
 
