@@ -2,6 +2,20 @@
 #include "Ball.h"
 #include <iostream>
 
+void InitializeAirResistanceTest(Ball& ball, bool& once1, bool& once2)
+{
+	ball.setPosition(0.f+ball.getBounds().width/2, ball.getWindowHeight() - ball.getBounds().height);
+	ball.setVelocity(sf::Vector2f(4.0f, -12.0f));
+	once1 = true;
+	once2 = true;
+}
+
+void removeAirResistanceTest(Ball& ball)
+{
+	ball.setPosition(1000.0f, 1000.0f);
+	ball.setVelocity(sf::Vector2f(0.0f, 0.0f));
+}
+
 void AirResistanceTest(Ball& ball, float deltaTime, bool &once1, bool &once2)
 {
 	ball.move();
@@ -33,11 +47,11 @@ void AirResistanceTest(Ball& ball, float deltaTime, bool &once1, bool &once2)
 	sf::Vector2f newVelocity = ball.getVelocity();				//We will now add the forces to this and get the new velocity
 
 	//F = ma gives us actingForces = m * a  <==>  a = actingForces/m
-	newVelocity.y += actingForces.y * timeConstant / mass;		
+	newVelocity.y -= actingForces.y * timeConstant / mass;		
 	newVelocity.x += actingForces.x * timeConstant / mass;
 	//We multiply by timeConstant since that is our deltaTime
 
-	if (newVelocity.y <= 0.0f && once1) //When the ball has reached it is highest point our program writes in the console
+	if (newVelocity.y >= 0.0f && once1) //When the ball has reached it is highest point our program writes in the console
 	{
 		
 		std::cout << "Ball reached highest point at X = " << (float)ball.getBounds().left / 100 + (float)(ball.getBounds().width / 2) / 100 << "m" << std::endl;
@@ -48,13 +62,9 @@ void AirResistanceTest(Ball& ball, float deltaTime, bool &once1, bool &once2)
 	{
 		std::cout << "Ball reached bottom at X = " << (float)ball.getBounds().left / 100 + (float)(ball.getBounds().width / 2) / 100 << "m" << std::endl;
 		once2 = false;
+		removeAirResistanceTest(ball);
 	}
 
 	ball.setVelocity(newVelocity);
 }
 
-void removeAirResistanceTest(Ball& ball)
-{
-	ball.setPosition(1000.0f, 1000.0f);
-	ball.setVelocity(sf::Vector2f(0.0f, 0.0f));
-}

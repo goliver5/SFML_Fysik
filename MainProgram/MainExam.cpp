@@ -22,7 +22,7 @@ const int CAP = 50;
 
 void initiateText(sf::Font& font, sf::Text& text);
 void writeToFile(std::string filename, std::vector<sf::Vector2f>& ball, std::vector<sf::Vector2f>& position);
-void saveValues(std::vector<sf::Vector2f>& ball, std::vector<sf::Vector2f>& position, Ball& ball1);
+void saveValues(std::vector<sf::Vector2f>& values, std::vector<sf::Vector2f>& position, Ball& collisionBall1, Ball& collisionBall2, Ball& airBall, int whichTestToSave);
 
 int main()
 {
@@ -31,6 +31,8 @@ int main()
 	float deltaTime = 1.f / fps;
 	
 	int counter = 0;
+	int saveAmount = 10;
+	int framesBetweenSaves = fps / saveAmount;
 
 	bool once1 = true;
 	bool once2 = true;
@@ -92,7 +94,7 @@ int main()
 					if (event.key.code == sf::Keyboard::Num2)
 					{
 						removeCollisionTest(collisionBall1, collisionBall2);
-						test.setVelocity(sf::Vector2f(4.0f, 12.0f));
+						InitializeAirResistanceTest(test, once1, once2);
 						whichTest = 2;
 					}
 				}
@@ -103,11 +105,10 @@ int main()
 			elapsedTimeSinceLastUpdate += clock.restart();
 			while (elapsedTimeSinceLastUpdate > timePerFrame)
 			{
-				//CollisionTest(collisionBall1, collisionBall2);
 				counter++;
-				if (counter == 15)
+				if (counter == framesBetweenSaves)
 				{
-					saveValues(values, position, collisionBall1);
+					saveValues(values, position, collisionBall1, collisionBall2, test, whichTest);
 					counter = 0;
 				}
 				switch (whichTest)
@@ -123,18 +124,6 @@ int main()
 				}
 				elapsedTimeSinceLastUpdate -= timePerFrame;
 				text.setString("Time: " + std::to_string(timePlayed.asSeconds()));
-				//test.move();
-				//AirResistanceTest(test, deltaTime, once1, once2);
-				//std::cout << "Speed: " << test.getSpeed() << std::endl; 
-
-				/*if(event.type = (sf::Event::KeyPressed))
-				{
-					switch (event.type)
-					{
-						case 
-					}
-				}*/
-
 			}
 
 
@@ -167,7 +156,7 @@ void initiateText(sf::Font& font, sf::Text& text)
 	font.loadFromFile("C:/Windows/fonts/arial.ttf");
 	text.setFont(font);
 	text.setFillColor(sf::Color::Green);
-	text.setPosition(500.0f, 100.0f);
+	text.setPosition(WIDTH-300, 0.0f);
 }
 
 void writeToFile(std::string filename, std::vector<sf::Vector2f>& ball, std::vector<sf::Vector2f>& position)
@@ -189,8 +178,21 @@ void writeToFile(std::string filename, std::vector<sf::Vector2f>& ball, std::vec
 	}
 }
 
-void saveValues(std::vector<sf::Vector2f>& values, std::vector<sf::Vector2f>& position, Ball &ball)
+void saveValues(std::vector<sf::Vector2f>& values, std::vector<sf::Vector2f>& position, Ball & collisionBall1, Ball &collisionBall2, Ball &airBall, int whichTestToSave)
 {
-	values.push_back(ball.getVelocity());
-	position.push_back(ball.getPosition());
+	switch (whichTestToSave)
+	{
+	case 1:
+		values.push_back(collisionBall1.getVelocity());
+		position.push_back(collisionBall1.getPosition());
+		values.push_back(collisionBall2.getVelocity());
+		position.push_back(collisionBall2.getPosition());
+		break;
+	case 2:
+		values.push_back(airBall.getVelocity());
+		position.push_back(airBall.getPosition());
+	default:
+		break;
+	}
+	
 }
