@@ -81,6 +81,10 @@ int main()
 					{
 						writeToFile("test.txt", values, position);
 					}
+					if (event.key.code == sf::Keyboard::Num1)
+					{
+						InitializeCollisionTest(collisionBall1, collisionBall2);
+					}
 				}
 				
 			}

@@ -2,7 +2,7 @@
 
 void GameEntity::moveSprite()
 {
-	this->shape->move(velocity.x, -velocity.y);
+	this->shape->move(velocity.x, velocity.y);
 }
 
 GameEntity::GameEntity(float windowWidth, float windowHeight, std::string fileName, sf::Vector2f speed, int radius)
