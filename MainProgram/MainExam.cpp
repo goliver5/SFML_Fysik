@@ -42,9 +42,15 @@ int main()
 	//ball values storage
 	std::vector<sf::Vector2f> values;
 	std::vector<sf::Vector2f> position;
+	std::vector<sf::Vector2f> markerPos;
+	std::vector<Ball> collisionBalls;
+	std::vector<sf::Vector2i> timer;
 
 	std::srand((unsigned)time(0));
 	sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "Fysik projekt");
+
+	sf::CircleShape marker(2);
+	marker.setFillColor(sf::Color::Red);
 
 	sf::Clock clock;
 	sf::Time elapsedTimeSinceLastUpdate = sf::Time::Zero;
@@ -57,9 +63,18 @@ int main()
 
 	Ball test(WIDTH,HEIGHT,sf::Vector2f(4.0f,12.0f), "Ball", 15);
 
-	Ball collisionBall1(WIDTH, HEIGHT, sf::Vector2f(10.0f, 0.0f), "Ball");
-	Ball collisionBall2(WIDTH, HEIGHT, sf::Vector2f(100.0f, 0.0f), "Ball");
-	InitializeCollisionTest(collisionBall1, collisionBall2);
+	collisionBalls.push_back(Ball(WIDTH, HEIGHT, sf::Vector2f(10.0f, 0.0f), "Ball"));
+	timer.push_back(sf::Vector2i(0,11));
+	collisionBalls.push_back(Ball(WIDTH, HEIGHT, sf::Vector2f(100.0f, 0.0f), "Ball"));
+	timer.push_back(sf::Vector2i(0, 11));
+
+	for (int i = 2; i < 8; i++)
+	{
+		collisionBalls.push_back(Ball(WIDTH, HEIGHT, sf::Vector2f(1, -2.0f), "Ball"));
+		collisionBalls[i].setPosition(i * 100, i * 100);
+		timer.push_back(sf::Vector2i(0, 11));
+	}
+	InitializeCollisionTest(collisionBalls[0], collisionBalls[1]);
 
 	window.setKeyRepeatEnabled(false);
 
@@ -77,9 +92,13 @@ int main()
 				{
 					if (event.key.code == sf::Keyboard::Space)
 					{
-						values.push_back(collisionBall1.getVelocity());
-						position.push_back(collisionBall1.getPosition());
-						std::cout << "Position: (" << collisionBall1.getPosition().x << ", " << collisionBall1.getPosition().y << ") " << " velocity: (" << collisionBall1.getVelocity().x << ", " << collisionBall1.getVelocity().y << ")" << std::endl;
+						for (int i = 0; i < collisionBalls.size(); i++)
+						{
+							values.push_back(collisionBalls[i].getVelocity());
+							position.push_back(collisionBalls[i].getPosition());
+							std::cout << "Position: (" << collisionBalls[i].getPosition().x << ", " << collisionBalls[i].getPosition().y << ") " << " velocity: (" << collisionBalls[i].getVelocity().x << ", " << collisionBalls[i].getVelocity().y << ")" << std::endl;
+						}
+						
 					}
 					if (event.key.code == sf::Keyboard::S)
 					{
@@ -87,15 +106,17 @@ int main()
 					}
 					if (event.key.code == sf::Keyboard::Num1)
 					{
-						InitializeCollisionTest(collisionBall1, collisionBall2);
+						InitializeCollisionTest(collisionBalls[0], collisionBalls[1]);
 						removeAirResistanceTest(test);
+						markerPos.clear();
 						whichTest = 1;
 					}
 					if (event.key.code == sf::Keyboard::Num2)
 					{
-						removeCollisionTest(collisionBall1, collisionBall2);
+						removeCollisionTest(collisionBalls[0], collisionBalls[1]);
 						InitializeAirResistanceTest(test, once1, once2);
 						whichTest = 2;
+						markerPos.clear();
 					}
 				}
 				
@@ -108,15 +129,51 @@ int main()
 				counter++;
 				if (counter == framesBetweenSaves)
 				{
-					saveValues(values, position, collisionBall1, collisionBall2, test, whichTest);
+					saveValues(values, position, collisionBalls[0], collisionBalls[1], test, whichTest);
 					counter = 0;
+					switch (whichTest)
+					{
+					default:
+						break;
+					case 1:
+						for (size_t i = 0; i < collisionBalls.size(); i++)
+						{
+							markerPos.push_back(collisionBalls[i].getPosition() - sf::Vector2f(2, 2));
+						}
+						break;
+					case 2:
+						markerPos.push_back(test.getPosition() - sf::Vector2f(2, 2));
+						break;
+					}
 				}
 				switch (whichTest)
 				{
 				default: 
 					break;
 				case 1:
-					CollisionTest(collisionBall1, collisionBall2);
+					for (int i = 0; i < collisionBalls.size(); i++)
+					{
+						for (int b = i+1; b < collisionBalls.size(); b++)
+						{
+							if (collisionBalls[i].collideWith(collisionBalls[b]))
+							{
+								if (timer[i].x == 0 && timer[b].x == 0)
+								{
+									CollisionTest(collisionBalls[i], collisionBalls[b]);
+									timer[i].x++;
+									timer[b].x++;
+								}
+							}
+						}
+					}
+					for (int i = 0; i < collisionBalls.size(); i++)
+					{
+						bounceOfWall(collisionBalls[i]);
+						collisionBalls[i].move();
+						if (timer[i].x != 0) timer[i].x = (timer[i].x + 1) % timer[i].y;
+					}
+					
+					//CollisionTest(collisionBall1, collisionBall2);
 					break;
 				case 2:
 					AirResistanceTest(test, deltaTime, once1, once2);
@@ -128,20 +185,27 @@ int main()
 
 
 		window.clear();
-
+		for (int i = 0; i < markerPos.size(); i++)
+		{
+			marker.setPosition(markerPos[i]);
+			window.draw(marker);
+		}
 	
 		switch (whichTest)
 		{
 		default:
 			break;
 		case 1:
-			window.draw(collisionBall1);
-			window.draw(collisionBall2);
+			for (int i = 0; i < collisionBalls.size(); i++)
+			{
+				window.draw(collisionBalls[i]);
+			}
 			break;
 		case 2:
 			window.draw(test);
 			break;
 		}
+		
 
 		window.draw(text);
 		window.display();
