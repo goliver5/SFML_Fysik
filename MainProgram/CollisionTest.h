@@ -124,9 +124,8 @@ void inelasticCollision(Ball& ball1, Ball& ball2, sf::Vector2f& vN1, sf::Vector2
 	ball1.setVelocity(finalvN2 + vP2);
 }
 
-void CollisionTest(Ball &ball1, Ball &ball2)
+void elasticCollision(Ball& ball1, Ball& ball2)
 {
-	std::cout << "Test\n";
 	//ball1.collideWith(ball2);
 	//float massball1 = 50.0f;//check if kg,
 	//float massball2 = 50.0f;
@@ -192,5 +191,12 @@ void CollisionTest(Ball &ball1, Ball &ball2)
 	//setting final velocity
 	ball1.setVelocity(ball1FinalVelocity);
 	ball2.setVelocity(ball2FinalVelocity);
+}
+
+void CollisionTest(Ball &ball1, Ball &ball2)
+{
+
+	elasticCollision(ball1, ball2);
+	//inelasticCollision();
 
 }
