@@ -4,7 +4,7 @@
 
 void InitializeAirResistanceTest(Ball& ball, bool& once1, bool& once2)
 {
-	ball.setPosition(0.f+ball.getBounds().width/2, ball.getWindowHeight() - ball.getBounds().height);
+	ball.setPosition(0.f, ball.getWindowHeight() - ball.getBounds().height);
 	ball.setVelocity(sf::Vector2f(4.0f, -12.0f));
 	once1 = true;
 	once2 = true;
@@ -28,7 +28,7 @@ void AirResistanceTest(Ball& ball, float deltaTime, bool &once1, bool &once2)
 	float timeConstant = deltaTime * ((1.f / 60.f) / deltaTime);	//Our deltaTime multiplier
 
 	const int PI = 3.141529;
-	float coefficient = 0.3;		//How much the drag affects the object depends on its shape, and we found that our sphere roughly has this coefficient
+	float coefficient = 0.29;		//How much the drag affects the object depends on its shape, and we found that our sphere roughly has this coefficient
 	double crossSection = ballRadius * ballRadius * PI;
 	
 	//Air resistance (or drag)
@@ -36,6 +36,7 @@ void AirResistanceTest(Ball& ball, float deltaTime, bool &once1, bool &once2)
 	float dragForce = speedSquared * airResistanceConstant;							//Gives the force of the drag
 	sf::Vector2f unitVector = ball.getVelocity() / ball.getSpeed();					//Normalized vector
 	sf::Vector2f airVector = (-1.f) * unitVector * dragForce;						//-1 because it is opposite direction to the velocity
+	airVector.y = airVector.y * (-1.f);												//Explained in row 51
 
 	//Gravity
 	sf::Vector2f gravityVector(0, 0);		 
@@ -47,7 +48,7 @@ void AirResistanceTest(Ball& ball, float deltaTime, bool &once1, bool &once2)
 	sf::Vector2f newVelocity = ball.getVelocity();				//We will now add the forces to this and get the new velocity
 
 	//F = ma gives us actingForces = m * a  <==>  a = actingForces/m
-	newVelocity.y -= actingForces.y * timeConstant / mass;		
+	newVelocity.y -= actingForces.y * timeConstant / mass;				//Since -y in this program means up(bottom of screen is higher y - value than top of screen)
 	newVelocity.x += actingForces.x * timeConstant / mass;
 	//We multiply by timeConstant since that is our deltaTime
 
