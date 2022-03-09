@@ -36,6 +36,7 @@ int main()
 
 	bool once1 = true;
 	bool once2 = true;
+	bool air = true;
 	int whichTest = 0;
 
 
@@ -49,7 +50,7 @@ int main()
 	std::srand((unsigned)time(0));
 	sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "Fysik projekt");
 
-	sf::CircleShape marker(2);
+	sf::CircleShape marker(3);
 	marker.setFillColor(sf::Color::Red);
 
 	sf::Clock clock;
@@ -120,6 +121,7 @@ int main()
 						InitializeAirResistanceTest(test, once1, once2);
 						whichTest = 2;
 						markerPos.clear();
+						air = true;
 					}
 					if (event.key.code == sf::Keyboard::Num3)
 					{
@@ -127,6 +129,13 @@ int main()
 						InitializeMultipleBallsCollisionTest(collisionBalls);
 						whichTest = 3;
 						markerPos.clear();
+					}
+					if (event.key.code == sf::Keyboard::Num4)
+					{
+						removeCollisionTest(collisionBall1, collisionBall2);
+						InitializeAirResistanceTest(test, once1, once2);
+						whichTest = 4;
+						air = false;
 					}
 				}
 				
@@ -149,13 +158,10 @@ int main()
 						markerPos.push_back(collisionBall1.getPosition() - sf::Vector2f(2, 2));
 						markerPos.push_back(collisionBall2.getPosition() - sf::Vector2f(2, 2));
 						break;
-					case 3:
-						for (size_t i = 0; i < collisionBalls.size(); i++)
-						{
-							markerPos.push_back(collisionBalls[i].getPosition() - sf::Vector2f(2, 2));
-						}
-						break;
 					case 2:
+						markerPos.push_back(test.getPosition() - sf::Vector2f(2, 2));
+						break;
+					case 4:
 						markerPos.push_back(test.getPosition() - sf::Vector2f(2, 2));
 						break;
 					}
@@ -171,6 +177,8 @@ int main()
 					}
 					collisionBall1.move();
 					collisionBall2.move();
+					bounceOfWall(collisionBall1);
+					bounceOfWall(collisionBall2);
 					break;
 				case 3:
 					for (int i = 0; i < collisionBalls.size(); i++)
@@ -197,7 +205,10 @@ int main()
 					
 					break;
 				case 2:
-					AirResistanceTest(test, deltaTime, once1, once2);
+					AirResistanceTest(test, deltaTime, once1, once2, air);
+					break;
+				case 4:
+					AirResistanceTest(test, deltaTime, once1, once2, air);
 					break;
 				}
 				elapsedTimeSinceLastUpdate -= timePerFrame;
@@ -232,6 +243,9 @@ int main()
 			{
 				window.draw(collisionBalls[i]);
 			}
+		case 4:
+			window.draw(test);
+			break;
 		break;
 		}
 		

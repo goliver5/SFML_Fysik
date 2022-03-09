@@ -16,7 +16,7 @@ void removeAirResistanceTest(Ball& ball)
 	ball.setVelocity(sf::Vector2f(0.0f, 0.0f));
 }
 
-void AirResistanceTest(Ball& ball, float deltaTime, bool &once1, bool &once2)
+void AirResistanceTest(Ball& ball, float deltaTime, bool &once1, bool &once2, bool air)
 {
 	ball.move();
 	float airDensity = 1.225;			//Density of air
@@ -37,6 +37,8 @@ void AirResistanceTest(Ball& ball, float deltaTime, bool &once1, bool &once2)
 	sf::Vector2f unitVector = ball.getVelocity() / ball.getSpeed();					//Normalized vector
 	sf::Vector2f airVector = (-1.f) * unitVector * dragForce;						//-1 because it is opposite direction to the velocity
 	airVector.y = airVector.y * (-1.f);												//Explained in row 51
+
+	if (!air) airVector = sf::Vector2f(0.f, 0.f);
 
 	//Gravity
 	sf::Vector2f gravityVector(0, 0);		 
