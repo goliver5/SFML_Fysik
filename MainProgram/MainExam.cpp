@@ -34,6 +34,8 @@ int main()
 
 	bool once1 = true;
 	bool once2 = true;
+	int whichTest = 0;
+
 
 	//ball values storage
 	std::vector<sf::Vector2f> values;
@@ -51,7 +53,7 @@ int main()
 	sf::Font font;
 	initiateText(font, text);
 
-	//Ball test(WIDTH,HEIGHT,sf::Vector2f(4.0f,12.0f), "Ball", 15);
+	Ball test(WIDTH,HEIGHT,sf::Vector2f(4.0f,12.0f), "Ball", 15);
 
 	Ball collisionBall1(WIDTH, HEIGHT, sf::Vector2f(10.0f, 0.0f), "Ball");
 	Ball collisionBall2(WIDTH, HEIGHT, sf::Vector2f(100.0f, 0.0f), "Ball");
@@ -84,6 +86,14 @@ int main()
 					if (event.key.code == sf::Keyboard::Num1)
 					{
 						InitializeCollisionTest(collisionBall1, collisionBall2);
+						removeAirResistanceTest(test);
+						whichTest = 1;
+					}
+					if (event.key.code == sf::Keyboard::Num2)
+					{
+						removeCollisionTest(collisionBall1, collisionBall2);
+						test.setVelocity(sf::Vector2f(4.0f, 12.0f));
+						whichTest = 2;
 					}
 				}
 				
@@ -93,14 +103,24 @@ int main()
 			elapsedTimeSinceLastUpdate += clock.restart();
 			while (elapsedTimeSinceLastUpdate > timePerFrame)
 			{
-				CollisionTest(collisionBall1, collisionBall2);
+				//CollisionTest(collisionBall1, collisionBall2);
 				counter++;
 				if (counter == 15)
 				{
 					saveValues(values, position, collisionBall1);
 					counter = 0;
 				}
-
+				switch (whichTest)
+				{
+				default: 
+					break;
+				case 1:
+					CollisionTest(collisionBall1, collisionBall2);
+					break;
+				case 2:
+					AirResistanceTest(test, deltaTime, once1, once2);
+					break;
+				}
 				elapsedTimeSinceLastUpdate -= timePerFrame;
 				text.setString("Time: " + std::to_string(timePlayed.asSeconds()));
 				//test.move();
@@ -120,11 +140,21 @@ int main()
 
 		window.clear();
 
-		window.draw(collisionBall1);
-		window.draw(collisionBall2);
+	
+		switch (whichTest)
+		{
+		default:
+			break;
+		case 1:
+			window.draw(collisionBall1);
+			window.draw(collisionBall2);
+			break;
+		case 2:
+			window.draw(test);
+			break;
+		}
 
 		window.draw(text);
-		//window.draw(test);
 		window.display();
 	}
 

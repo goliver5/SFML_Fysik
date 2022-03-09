@@ -10,6 +10,15 @@ void InitializeCollisionTest(Ball& ball1, Ball& ball2)
 	ball2.setVelocity(sf::Vector2f(-2.0f, 0.0f));
 }
 
+void removeCollisionTest(Ball& ball1, Ball& ball2)
+{
+	ball1.setPosition(1000.0f, 1000.0f);
+	ball1.setPosition(1000.0f, 1000.0f);
+
+	ball1.setVelocity(sf::Vector2f(0.0f, 0.0f));
+	ball2.setVelocity(sf::Vector2f(0.0f, 0.0f));
+}
+
 void CollisionTest(Ball &ball1, Ball &ball2)
 {
 	//ball1.collideWith(ball2);

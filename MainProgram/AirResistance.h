@@ -4,6 +4,7 @@
 
 void AirResistanceTest(Ball& ball, float deltaTime, bool &once1, bool &once2)
 {
+	ball.move();
 	float airDensity = 1.225;			//Density of air
 	float mass = 1;
 
@@ -50,4 +51,10 @@ void AirResistanceTest(Ball& ball, float deltaTime, bool &once1, bool &once2)
 	}
 
 	ball.setVelocity(newVelocity);
+}
+
+void removeAirResistanceTest(Ball& ball)
+{
+	ball.setPosition(1000.0f, 1000.0f);
+	ball.setVelocity(sf::Vector2f(0.0f, 0.0f));
 }
