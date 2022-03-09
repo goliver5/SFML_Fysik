@@ -195,8 +195,19 @@ void elasticCollision(Ball& ball1, Ball& ball2)
 
 void CollisionTest(Ball &ball1, Ball &ball2)
 {
-
-	elasticCollision(ball1, ball2);
+	int temp = 1;
+	switch (temp)
+	{
+	default:
+		break;
+	case 1:
+		elasticCollision(ball1, ball2);
+		break;
+	case 2:
+		//inelasticCollision()
+		break;
+	}
+	//elasticCollision(ball1, ball2);
 	//inelasticCollision();
 
 }
