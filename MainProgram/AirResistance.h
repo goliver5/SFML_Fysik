@@ -4,20 +4,17 @@
 
 void AirResistanceTest(Ball& ball, float deltaTime, bool &once1, bool &once2)
 {
-	//Densities
 	float airDensity = 1.225;			//Density of air
-	float mass = 1;						//Density of object
+	float mass = 1;
 
-	//Reduce the text amount and improves performance of the program
+	//Reduce the text amount
 	float ballRadius = ball.getRadius();
 	float speedSquared = ball.getSpeed() * ball.getSpeed();
-	float timeConstant = deltaTime * ((1.f / 60.f) / deltaTime);	//Our deltaTime, has the other part just to keep the same basis as the start
+	float timeConstant = deltaTime * ((1.f / 60.f) / deltaTime);	//Our deltaTime multiplier
 
-	const int PI = 3.141529;		//Pi or close enough
-	float coefficient = 0.4;		//How much the drag affects the object depends on its shape, and we found that our sphere roughly has this coefficient
+	const int PI = 3.141529;
+	float coefficient = 0.3;		//How much the drag affects the object depends on its shape, and we found that our sphere roughly has this coefficient
 	double crossSection = ballRadius * ballRadius * PI;
-
-	//float mass = density * (4.f / 3.f * PI * ballRadius * ballRadius * ballRadius); //We calculate the mass by: m = pV (p = density, V = volume)
 	
 	//Air resistance (or drag)
 	float airResistanceConstant = 0.5 * airDensity * coefficient * crossSection;	//The constant part of the drag force (none of these values should change during runtime)
@@ -32,12 +29,12 @@ void AirResistanceTest(Ball& ball, float deltaTime, bool &once1, bool &once2)
 	//Now we combine the two acting forces
 	sf::Vector2f actingForces = gravityVector + airVector;
 
-
 	sf::Vector2f newVelocity = ball.getVelocity();				//We will now add the forces to this and get the new velocity
 
 	//F = ma gives us actingForces = m * a  <==>  a = actingForces/m
-	newVelocity.y += actingForces.y * timeConstant / mass;		//We multiply it by timeConstant since that is our deltaTime
+	newVelocity.y += actingForces.y * timeConstant / mass;		
 	newVelocity.x += actingForces.x * timeConstant / mass;
+	//We multiply by timeConstant since that is our deltaTime
 
 	if (newVelocity.y <= 0.0f && once1) //When the ball has reached it is highest point our program writes in the console
 	{
