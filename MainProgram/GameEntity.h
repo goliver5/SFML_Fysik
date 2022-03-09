@@ -1,6 +1,7 @@
 #pragma once
 #include<SFML/Graphics.hpp>
 #include<string>
+#include <stdlib.h>
 
 
 class GameEntity : public sf::Drawable
@@ -18,7 +19,7 @@ private:
 protected:
 	void moveSprite();
 public:
-	GameEntity(float windowWidth, float windowHeight, std::string fileName, sf::Vector2f speed, int radius);
+	GameEntity(float windowWidth, float windowHeight, std::string fileName, sf::Vector2f speed, int radius, int color = 0);
 	virtual~GameEntity();
 	bool collideWith(const GameEntity& other);
 

@@ -2,9 +2,11 @@
 #include "Ball.h"
 #include "AirResistance.h"
 #include "CollisionTest.h"
-#include<iostream>
-#include<vector>
-#include<fstream>
+#include <iostream>
+#include <vector>
+#include <fstream>
+#include <stdlib.h>
+#include <time.h>
 
 #ifdef _DEBUG
 #pragma comment(lib, "sfml-window-d.lib")
@@ -26,6 +28,8 @@ void saveValues(std::vector<sf::Vector2f>& values, std::vector<sf::Vector2f>& po
 
 int main()
 {
+
+	srand(time(NULL));
 	//1 Pixel is 1 cm
 	float fps = 60;
 	float deltaTime = 1.f / fps;

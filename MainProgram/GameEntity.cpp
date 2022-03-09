@@ -5,14 +5,64 @@ void GameEntity::moveSprite()
 	this->shape->move(velocity.x, velocity.y);
 }
 
-GameEntity::GameEntity(float windowWidth, float windowHeight, std::string fileName, sf::Vector2f speed, int radius)
+GameEntity::GameEntity(float windowWidth, float windowHeight, std::string fileName, sf::Vector2f speed, int radius, int color)
 	:windowHeight(windowHeight),windowWidth(windowWidth), velocity(speed), radius(radius)
 {
+
 	if (fileName == "Ball")
 	{
 		this->shape = new sf::CircleShape(radius);
-		this->shape->setFillColor(sf::Color::Blue);
+		//this->shape->setFillColor(sf::Color::Blue);
 		this->shape->setPosition(0, windowHeight-this->shape->getGlobalBounds().height);
+
+		int r, g, b;
+		if (color == 0)
+		{
+			//color = rand() % 6 + 1;
+			r = rand() % 256;
+			g = rand() % 256;
+			b = rand() % 256;
+		}
+
+		switch (color)
+		{
+		default:
+			this->shape->setFillColor(sf::Color::Blue);
+			break;
+		case 0:
+			//this->shape->setFillColor(sf::Color::Blue);
+			this->shape->setFillColor(sf::Color::Color(r, g, b));
+			break;
+		}
+
+		//switch (color)
+		//{
+		//default:
+		//	this->shape->setFillColor(sf::Color::Blue);
+		//	break;
+		//case 0:
+		//	//this->shape->setFillColor(sf::Color::Blue);
+		//	this->shape->setFillColor(sf::Color::Color(r, g, b));
+		//	break;
+		//case 1:
+		//	this->shape->setFillColor(sf::Color::Blue);
+		//	break;
+		//case 2:
+		//	this->shape->setFillColor(sf::Color::Magenta);
+		//	break;
+		//case 3:
+		//	this->shape->setFillColor(sf::Color::Yellow);
+		//	break;
+		//case 4:
+		//	this->shape->setFillColor(sf::Color::Cyan);
+		//	break;
+		//case 5:
+		//	this->shape->setFillColor(sf::Color::Green);
+		//	break;
+		//case 6:
+		//	this->shape->setFillColor(sf::Color::Red);
+		//	break;
+		//}
 	}
 	/*if (this->texture.loadFromFile("../Images/" + fileName))
 	{

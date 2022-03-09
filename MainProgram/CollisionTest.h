@@ -10,7 +10,7 @@ void InitializeCollisionTest(Ball& ball1, Ball& ball2)
 	ball2.setVelocity(sf::Vector2f(0.f, 2.0f));
 }
 
-void InitializeMultipleBallsCollisionTest(std::vector<Ball> balls)
+void InitializeMultipleBallsCollisionTest(std::vector<Ball> &balls)
 {
 	if (balls.size() == 8)
 	{
@@ -128,8 +128,11 @@ void CollisionTest(Ball &ball1, Ball &ball2)
 {
 	std::cout << "Test\n";
 	//ball1.collideWith(ball2);
-	float massball1 = 50.0f;//check if kg,
-	float massball2 = 50.0f;
+	//float massball1 = 50.0f;//check if kg,
+	//float massball2 = 50.0f;
+	float massball1 = ball1.getWeight();
+	float massball2 = ball2.getWeight();
+
 	int ballvelocity[2];
 
 	sf::Vector2f VelocityAfterCollision;
