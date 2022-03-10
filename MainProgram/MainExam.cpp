@@ -124,7 +124,8 @@ int main()
 					}
 					if (event.key.code == sf::Keyboard::Num3)
 					{
-						//removeCollisionTest(collisionBalls[0], collisionBalls[1]);
+						removeAirResistanceTest(airTestBall);
+						removeCollisionTest(collisionBall1, collisionBall2);
 						InitializeMultipleBallsCollisionTest(collisionBalls);
 						whichTest = 3;
 						markerPos.clear();
@@ -169,6 +170,10 @@ int main()
 						break;
 					case 4:
 						markerPos.push_back(airTestBall.getPosition() - sf::Vector2f(2, 2));
+						break;
+					case 5:
+						markerPos.push_back(collisionBall1.getPosition() - sf::Vector2f(2, 2));
+						markerPos.push_back(collisionBall2.getPosition() - sf::Vector2f(2, 2));
 						break;
 					}
 				}
@@ -219,7 +224,7 @@ int main()
 				case 5:
 					if (collisionBall1.collideWith(collisionBall2))
 					{
-						CollisionTest(collisionBall1, collisionBall2, 1);
+						CollisionTest(collisionBall1, collisionBall2, 2);
 					}
 					collisionBall1.move();
 					collisionBall2.move();
