@@ -124,8 +124,6 @@ void inelasticCollision(Ball& ball1, Ball& ball2)
 
 	//hastighet projektion hastighet på vektorn mellan bollarna 
 	//hastighet från boll 1
-	//sf::Vector2f vN1  = (((ball1.getVelocity().x * vbb.x) + (ball1.getVelocity().y * vbb.y)) / ((vbb.x * vbb.x) + (vbb.y * vbb.y))) * vbb;
-	//sf::Vector2f vN2 = (((ball2.getVelocity().x * -vbb.x) + (ball1.getVelocity().y * vbb.y)) / ((vbb.x * vbb.x) + (vbb.y * vbb.y))) * vbb;
 
 	sf::Vector2f vN1 = (((ball1.getVelocity().x * vbb.x) + (ball1.getVelocity().y * vbb.y)) / ((vbb.x * vbb.x) + (vbb.y * vbb.y))) * vbb;
 	sf::Vector2f vN2 = (((ball2.getVelocity().x * vbb2.x) + (ball2.getVelocity().y * vbb2.y)) / ((vbb2.x * vbb2.x) + (vbb2.y * vbb2.y))) * vbb2;
@@ -158,9 +156,6 @@ void inelasticCollision(Ball& ball1, Ball& ball2)
 
 void elasticCollision(Ball& ball1, Ball& ball2)
 {
-	//ball1.collideWith(ball2);
-	//float massball1 = 50.0f;//check if kg,
-	//float massball2 = 50.0f;
 	float massball1 = ball1.getWeight();
 	float massball2 = ball2.getWeight();
 
@@ -176,9 +171,6 @@ void elasticCollision(Ball& ball1, Ball& ball2)
 
 	//hastighet projektion hastighet på vektorn mellan bollarna 
 	//hastighet från boll 1
-	//sf::Vector2f vN1  = (((ball1.getVelocity().x * vbb.x) + (ball1.getVelocity().y * vbb.y)) / ((vbb.x * vbb.x) + (vbb.y * vbb.y))) * vbb;
-	//sf::Vector2f vN2 = (((ball2.getVelocity().x * -vbb.x) + (ball1.getVelocity().y * vbb.y)) / ((vbb.x * vbb.x) + (vbb.y * vbb.y))) * vbb;
-
 	sf::Vector2f vN1 = (((ball1.getVelocity().x * vbb.x) + (ball1.getVelocity().y * vbb.y)) / ((vbb.x * vbb.x) + (vbb.y * vbb.y))) * vbb;
 	sf::Vector2f vN2 = (((ball2.getVelocity().x * vbb2.x) + (ball2.getVelocity().y * vbb2.y)) / ((vbb2.x * vbb2.x) + (vbb2.y * vbb2.y))) * vbb2;
 	//parallel med kollisionsplanet
@@ -190,21 +182,18 @@ void elasticCollision(Ball& ball1, Ball& ball2)
 	massPositive = massball1 + massball2;
 	float massValue = massnegative / massPositive;
 	sf::Vector2f v1Before, v2Before;
-	//v1Before.x = massValue * ball1.getVelocity().x;
-	//v1Before.y = massValue * ball1.getVelocity().y;
+
 	v1Before.x = massValue * vN1.x;
 	v1Before.y = massValue * vN1.y;
 
 	float secondValue = (2 * massball2) / (massball1 + massball2);
-	/*v2Before.x = secondValue * ball2.getVelocity().x;
-	v2Before.y = secondValue * ball2.getVelocity().y;*/
+
 	v2Before.x = secondValue * vN2.x;
 	v2Before.y = secondValue * vN2.y;
 
 	sf::Vector2f ball1FinalVelocity = v1Before + v2Before;
 	ball1FinalVelocity = ball1FinalVelocity + vP1;
 
-	//massnegative = (massnegative*ball1.getVelocity().x)
 
 	//ball1 velocity after collision calculation
 	float firstValueSecondBall = (2 * massball1) / massPositive;
@@ -238,7 +227,4 @@ void CollisionTest(Ball &ball1, Ball &ball2, int temp)
 		inelasticCollision(ball1, ball2);
 		break;
 	}
-	//elasticCollision(ball1, ball2);
-	//inelasticCollision();
-
 }

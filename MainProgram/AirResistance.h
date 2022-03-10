@@ -5,7 +5,7 @@
 void InitializeAirResistanceTest(Ball& ball, bool& once1, bool& once2)
 {
 	ball.setPosition(0.f, ball.getWindowHeight() - ball.getBounds().height);
-	ball.setVelocity(sf::Vector2f(4.0f, -12.0f));
+	ball.setVelocity(sf::Vector2f(5.0f, -12.0f));
 	once1 = true;
 	once2 = true;
 }

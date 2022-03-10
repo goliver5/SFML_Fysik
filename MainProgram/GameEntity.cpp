@@ -1,13 +1,14 @@
 #include "GameEntity.h"
+#include <iostream>
 
 void GameEntity::moveSprite()
 {
-	float timeConstant = ((1.f / 60.f) / (1.f/fps));
-	this->shape->move(velocity.x* timeConstant, velocity.y* timeConstant);
+	//this->shape->move(velocity.x* this->timeConstant, this->velocity.y* timeConstant);
+	this->shape->move(velocity.x, this->velocity.y);
 }
 
 GameEntity::GameEntity(float windowWidth, float windowHeight, std::string fileName, sf::Vector2f speed, int radius, int color)
-	:windowHeight(windowHeight),windowWidth(windowWidth), velocity(speed), radius(radius), fps(60.f)
+	:windowHeight(windowHeight),windowWidth(windowWidth), velocity(speed), radius(radius), fps(60.f), timeConstant(1.f)
 {
 
 	if (fileName == "Ball")
@@ -87,6 +88,8 @@ bool GameEntity::collideWith(const GameEntity& other)
 void GameEntity::setFPS(float framesPerSecond)
 {
 	this->fps = framesPerSecond;
+	timeConstant = (1.f / fps)/ (1.f / 60.f);
+	std::cout << "TimeConstant: " << timeConstant << std::endl;
 }
 
 bool GameEntity::collideWithRect(const sf::RectangleShape other)

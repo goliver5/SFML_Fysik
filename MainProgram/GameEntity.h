@@ -17,6 +17,7 @@ private:
 	bool isAlive;
 	int radius;
 	float fps;
+	float timeConstant;
 protected:
 	void moveSprite();
 public:

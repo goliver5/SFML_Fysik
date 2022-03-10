@@ -31,7 +31,7 @@ int main()
 
 	srand(time(NULL));
 	//1 Pixel is 1 cm
-	float fps = 60;
+	float fps = 60.f;
 	float deltaTime = 1.f / fps;
 	
 	int counter = 0;
@@ -42,6 +42,7 @@ int main()
 	bool once2 = true;
 	bool air = true;
 	int whichTest = 0;
+	int nrOfAirTestMarkers = 0;
 
 
 	//ball values storage
@@ -66,7 +67,7 @@ int main()
 	sf::Font font;
 	initiateText(font, text);
 
-	Ball airTestBall(WIDTH,HEIGHT,sf::Vector2f(4.0f,12.0f), "Ball", 15, 0, 1);
+	Ball airTestBall(WIDTH,HEIGHT,sf::Vector2f(5.0f,12.0f), "Ball", 15, 0, 1);
 
 	Ball collisionBall1(WIDTH, HEIGHT, sf::Vector2f(10.0f, 0.0f), "Ball");
 	Ball collisionBall2(WIDTH, HEIGHT, sf::Vector2f(10.0f, 0.0f), "Ball");
@@ -79,6 +80,7 @@ int main()
 		timer.push_back(sf::Vector2i(0, 11));
 	}
 
+	airTestBall.setFPS(fps);
 	window.setKeyRepeatEnabled(false);
 
 	while (window.isOpen())
@@ -135,6 +137,7 @@ int main()
 						removeCollisionTest(collisionBall1, collisionBall2);
 						InitializeAirResistanceTest(airTestBall, once1, once2);
 						whichTest = 4;
+						nrOfAirTestMarkers = markerPos.size();
 						air = false;
 					}
 					if (event.key.code == sf::Keyboard::Num5)
@@ -236,11 +239,14 @@ int main()
 
 
 		window.clear();
+
 		if (whichTest != 3)
 		{
 			for (int i = 0; i < markerPos.size(); i++)
 			{
 				marker.setPosition(markerPos[i]);
+				if (whichTest == 4 && nrOfAirTestMarkers <= i) marker.setFillColor(sf::Color::White);
+				else marker.setFillColor(sf::Color::Red);
 				window.draw(marker);
 			}
 		}
