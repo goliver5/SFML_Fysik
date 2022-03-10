@@ -136,6 +136,13 @@ int main()
 						whichTest = 4;
 						air = false;
 					}
+					if (event.key.code == sf::Keyboard::Num5)
+					{
+						InitializeCollisionTest2(collisionBall1, collisionBall2);
+						removeAirResistanceTest(airTestBall);
+						markerPos.clear();
+						whichTest = 5;
+					}
 				}
 				
 			}
@@ -172,7 +179,7 @@ int main()
 				case 1:
 					if (collisionBall1.collideWith(collisionBall2))
 					{
-						CollisionTest(collisionBall1, collisionBall2);
+						CollisionTest(collisionBall1, collisionBall2, 1);
 					}
 					collisionBall1.move();
 					collisionBall2.move();
@@ -188,7 +195,7 @@ int main()
 							{
 								if (timer[i].x == 0 && timer[b].x == 0)
 								{
-									CollisionTest(collisionBalls[i], collisionBalls[b]);
+									CollisionTest(collisionBalls[i], collisionBalls[b], 1);
 									timer[i].x++;
 									timer[b].x++;
 								}
@@ -208,6 +215,14 @@ int main()
 					break;
 				case 4:
 					AirResistanceTest(airTestBall, deltaTime, once1, once2, air);
+					break;
+				case 5:
+					if (collisionBall1.collideWith(collisionBall2))
+					{
+						CollisionTest(collisionBall1, collisionBall2, 1);
+					}
+					collisionBall1.move();
+					collisionBall2.move();
 					break;
 				}
 				elapsedTimeSinceLastUpdate -= timePerFrame;
@@ -244,6 +259,10 @@ int main()
 			}
 		case 4:
 			window.draw(airTestBall);
+			break;
+		case 5:
+			window.draw(collisionBall1);
+			window.draw(collisionBall2);
 			break;
 		break;
 		}

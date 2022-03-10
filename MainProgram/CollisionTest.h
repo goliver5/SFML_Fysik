@@ -10,6 +10,15 @@ void InitializeCollisionTest(Ball& ball1, Ball& ball2)
 	ball2.setVelocity(sf::Vector2f(0.f, 2.0f));
 }
 
+void InitializeCollisionTest2(Ball& ball1, Ball& ball2)
+{
+	ball1.setPosition(420.0f, 310.0f);
+	ball2.setPosition(400.0f, 200.0f);
+
+	ball1.setVelocity(sf::Vector2f(0.0f, -2.0f));
+	ball2.setVelocity(sf::Vector2f(0.0f, 2.0f));
+}
+
 void InitializeMultipleBallsCollisionTest(std::vector<Ball> &balls)
 {
 	if (balls.size() == 8)
@@ -98,16 +107,39 @@ void bounceOfWall(Ball& ball)
 	}
 }
 
-void inelasticCollision(Ball& ball1, Ball& ball2, sf::Vector2f& vN1, sf::Vector2f& vN2, sf::Vector2f& vP1, sf::Vector2f& vP2, float& mass1, float& mass2)
+void inelasticCollision(Ball& ball1, Ball& ball2)
 {
 
-	float e = 0.9; //om e like med noll så är den fullständigt oelastisk, för elastiska kollisioner är allt e = 1
-	float masstemp = (mass1 - (mass2 * 0));
-	float masstempNegative = (mass1 - (e * mass1));
-	float massPositive = mass1 + mass2;
+	float massball1 = ball1.getWeight();
+	float massball2 = ball2.getWeight();
+
+	sf::Vector2f VelocityAfterCollision;
+
+	//test för rörelsemängd
+
+	//vektor mellan bollarna
+	sf::Vector2f vbb, vbb2;
+	vbb = ball1.getPosition() - ball2.getPosition();//hastighet på VN
+	vbb2 = ball2.getPosition() - ball1.getPosition();
+
+	//hastighet projektion hastighet på vektorn mellan bollarna 
+	//hastighet från boll 1
+	//sf::Vector2f vN1  = (((ball1.getVelocity().x * vbb.x) + (ball1.getVelocity().y * vbb.y)) / ((vbb.x * vbb.x) + (vbb.y * vbb.y))) * vbb;
+	//sf::Vector2f vN2 = (((ball2.getVelocity().x * -vbb.x) + (ball1.getVelocity().y * vbb.y)) / ((vbb.x * vbb.x) + (vbb.y * vbb.y))) * vbb;
+
+	sf::Vector2f vN1 = (((ball1.getVelocity().x * vbb.x) + (ball1.getVelocity().y * vbb.y)) / ((vbb.x * vbb.x) + (vbb.y * vbb.y))) * vbb;
+	sf::Vector2f vN2 = (((ball2.getVelocity().x * vbb2.x) + (ball2.getVelocity().y * vbb2.y)) / ((vbb2.x * vbb2.x) + (vbb2.y * vbb2.y))) * vbb2;
+	//parallel med kollisionsplanet
+	sf::Vector2f vP1 = ball1.getVelocity() - vN1;
+	sf::Vector2f vP2 = ball2.getVelocity() - vN2;
+
+	float e = 0.5; //om e like med noll så är den fullständigt oelastisk, för elastiska kollisioner är allt e = 1
+	float masstemp = (massball1 - (massball2 * e));
+	float masstempNegative = (massball1 - (e * massball1));
+	float massPositive = massball1 + massball2;
 	//for ball 1
 	sf::Vector2f v1 = sf::Vector2f(vN1.x * masstemp, vN1.y * masstemp);
-	sf::Vector2f v2 = sf::Vector2f(mass2 * vN1.x * (1 * e), mass2 * vN1.y * (1 * e));
+	sf::Vector2f v2 = sf::Vector2f(massball2 * vN1.x * (1 * e), massball2 * vN1.y * (1 * e));
 	sf::Vector2f v3 = v1 + v2;
 	sf::Vector2f finalVn1 = sf::Vector2f(v3.x / massPositive, v3.y / massPositive);
 
@@ -116,12 +148,12 @@ void inelasticCollision(Ball& ball1, Ball& ball2, sf::Vector2f& vN1, sf::Vector2
 
 	//för ball 2
 
-	sf::Vector2f v4 = sf::Vector2f(vN1.x * mass1 * (1 + e), vN1.y * mass1 * (1 + e));
-	sf::Vector2f v5 = sf::Vector2f(vN2.x * masstempNegative, vN2.x * masstempNegative);
+	sf::Vector2f v4 = sf::Vector2f(vN1.x * massball1 * (1 + e), vN1.y * massball1 * (1 + e));
+	sf::Vector2f v5 = sf::Vector2f(vN2.x * masstempNegative, vN2.y * masstempNegative);
 	sf::Vector2f v6 = v4 + v5;
 	sf::Vector2f finalvN2 = sf::Vector2f(v6.x / massPositive, v6.y / massPositive);
 
-	ball1.setVelocity(finalvN2 + vP2);
+	ball2.setVelocity(finalvN2 + vP2);
 }
 
 void elasticCollision(Ball& ball1, Ball& ball2)
@@ -131,8 +163,6 @@ void elasticCollision(Ball& ball1, Ball& ball2)
 	//float massball2 = 50.0f;
 	float massball1 = ball1.getWeight();
 	float massball2 = ball2.getWeight();
-
-	int ballvelocity[2];
 
 	sf::Vector2f VelocityAfterCollision;
 	float massnegative, massPositive;
@@ -193,18 +223,19 @@ void elasticCollision(Ball& ball1, Ball& ball2)
 	ball2.setVelocity(ball2FinalVelocity);
 }
 
-void CollisionTest(Ball &ball1, Ball &ball2)
+void CollisionTest(Ball &ball1, Ball &ball2, int temp)
 {
-	int temp = 1;
+	
 	switch (temp)
 	{
 	default:
 		break;
+		elasticCollision(ball1, ball2);
 	case 1:
 		elasticCollision(ball1, ball2);
 		break;
 	case 2:
-		//inelasticCollision()
+		inelasticCollision(ball1, ball2);
 		break;
 	}
 	//elasticCollision(ball1, ball2);
