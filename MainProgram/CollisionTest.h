@@ -3,7 +3,7 @@
 
 void InitializeCollisionTest(Ball& ball1, Ball& ball2)
 {
-	ball1.setPosition(420.0f, 310.0f);
+	ball1.setPosition(425.0f, 320.0f);
 	ball2.setPosition(400.0f, 200.0f);
 
 	ball1.setVelocity(sf::Vector2f(0.f, -2.0f));
@@ -12,11 +12,11 @@ void InitializeCollisionTest(Ball& ball1, Ball& ball2)
 
 void InitializeCollisionTest2(Ball& ball1, Ball& ball2)
 {
-	ball1.setPosition(420.0f, 310.0f);
-	ball2.setPosition(400.0f, 200.0f);
+	ball1.setPosition(500.0f, 310.0f);
+	ball2.setPosition(300.0f, 300.0f);
 
-	ball1.setVelocity(sf::Vector2f(0.0f, -2.0f));
-	ball2.setVelocity(sf::Vector2f(0.0f, 2.0f));
+	ball1.setVelocity(sf::Vector2f(-2.0f, 0.0f));
+	ball2.setVelocity(sf::Vector2f(2.0f, 0.0f));
 }
 
 void InitializeMultipleBallsCollisionTest(std::vector<Ball> &balls)
