@@ -2,11 +2,12 @@
 
 void GameEntity::moveSprite()
 {
-	this->shape->move(velocity.x, velocity.y);
+	float timeConstant = ((1.f / 60.f) / (1.f/fps));
+	this->shape->move(velocity.x* timeConstant, velocity.y* timeConstant);
 }
 
 GameEntity::GameEntity(float windowWidth, float windowHeight, std::string fileName, sf::Vector2f speed, int radius, int color)
-	:windowHeight(windowHeight),windowWidth(windowWidth), velocity(speed), radius(radius)
+	:windowHeight(windowHeight),windowWidth(windowWidth), velocity(speed), radius(radius), fps(60.f)
 {
 
 	if (fileName == "Ball")
@@ -82,9 +83,10 @@ bool GameEntity::collideWith(const GameEntity& other)
 	return this->shape->getGlobalBounds().intersects(other.shape->getGlobalBounds());
 }
 
-void GameEntity::increaseScale()
+
+void GameEntity::setFPS(float framesPerSecond)
 {
-	this->sprite.setScale(this->sprite.getScale() * 1.25f);
+	this->fps = framesPerSecond;
 }
 
 bool GameEntity::collideWithRect(const sf::RectangleShape other)
@@ -102,28 +104,11 @@ void GameEntity::setPosition(float xPos, float yPos)
 	this->shape->setPosition(xPos, yPos);
 }
 
-void GameEntity::Spawn(float xPos, float yPos)
-{
-	this->sprite.setPosition(xPos, yPos);
-	this->isAlive = true;
-}
-
-bool GameEntity::getIsSpawned() const
-{
-	return this->isAlive;
-}
-
 sf::FloatRect GameEntity::getBounds() const
 {
 	return this->shape->getGlobalBounds();
 }
 
-
-void GameEntity::disapear()
-{
-	this->sprite.setPosition(-300.0f, -300.0f);
-	this->isAlive = false;
-}
 
 float GameEntity::getWindowWidth()
 {

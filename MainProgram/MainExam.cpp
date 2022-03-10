@@ -66,23 +66,18 @@ int main()
 	sf::Font font;
 	initiateText(font, text);
 
-	Ball test(WIDTH,HEIGHT,sf::Vector2f(4.0f,12.0f), "Ball", 15);
+	Ball airTestBall(WIDTH,HEIGHT,sf::Vector2f(4.0f,12.0f), "Ball", 15, 0, 1);
 
 	Ball collisionBall1(WIDTH, HEIGHT, sf::Vector2f(10.0f, 0.0f), "Ball");
 	Ball collisionBall2(WIDTH, HEIGHT, sf::Vector2f(10.0f, 0.0f), "Ball");
 
-	collisionBalls.push_back(Ball(WIDTH, HEIGHT, sf::Vector2f(10.0f, 0.0f), "Ball"));
-	timer.push_back(sf::Vector2i(0,11));
-	collisionBalls.push_back(Ball(WIDTH, HEIGHT, sf::Vector2f(100.0f, 0.0f), "Ball"));
-	timer.push_back(sf::Vector2i(0, 11));
 
-	for (int i = 2; i < 8; i++)
+	for (int i = 0; i < 8; i++)
 	{
 		collisionBalls.push_back(Ball(WIDTH, HEIGHT, sf::Vector2f(1, -2.0f), "Ball"));
 		collisionBalls[i].setPosition(i * 100, i * 100);
 		timer.push_back(sf::Vector2i(0, 11));
 	}
-	InitializeCollisionTest(collisionBall1, collisionBall2);
 
 	window.setKeyRepeatEnabled(false);
 
@@ -115,14 +110,14 @@ int main()
 					if (event.key.code == sf::Keyboard::Num1)
 					{
 						InitializeCollisionTest(collisionBall1, collisionBall2);
-						removeAirResistanceTest(test);
+						removeAirResistanceTest(airTestBall);
 						markerPos.clear();
 						whichTest = 1;
 					}
 					if (event.key.code == sf::Keyboard::Num2)
 					{
 						removeCollisionTest(collisionBall1, collisionBall2);
-						InitializeAirResistanceTest(test, once1, once2);
+						InitializeAirResistanceTest(airTestBall, once1, once2);
 						whichTest = 2;
 						markerPos.clear();
 						air = true;
@@ -137,7 +132,7 @@ int main()
 					if (event.key.code == sf::Keyboard::Num4)
 					{
 						removeCollisionTest(collisionBall1, collisionBall2);
-						InitializeAirResistanceTest(test, once1, once2);
+						InitializeAirResistanceTest(airTestBall, once1, once2);
 						whichTest = 4;
 						air = false;
 					}
@@ -152,7 +147,7 @@ int main()
 				counter++;
 				if (counter == framesBetweenSaves)
 				{
-					saveValues(values, position, collisionBalls[0], collisionBalls[1], test, whichTest);
+					saveValues(values, position, collisionBall1, collisionBall2, airTestBall, whichTest);
 					counter = 0;
 					switch (whichTest)
 					{
@@ -163,10 +158,10 @@ int main()
 						markerPos.push_back(collisionBall2.getPosition() - sf::Vector2f(2, 2));
 						break;
 					case 2:
-						markerPos.push_back(test.getPosition() - sf::Vector2f(2, 2));
+						markerPos.push_back(airTestBall.getPosition() - sf::Vector2f(2, 2));
 						break;
 					case 4:
-						markerPos.push_back(test.getPosition() - sf::Vector2f(2, 2));
+						markerPos.push_back(airTestBall.getPosition() - sf::Vector2f(2, 2));
 						break;
 					}
 				}
@@ -209,10 +204,10 @@ int main()
 					
 					break;
 				case 2:
-					AirResistanceTest(test, deltaTime, once1, once2, air);
+					AirResistanceTest(airTestBall, deltaTime, once1, once2, air);
 					break;
 				case 4:
-					AirResistanceTest(test, deltaTime, once1, once2, air);
+					AirResistanceTest(airTestBall, deltaTime, once1, once2, air);
 					break;
 				}
 				elapsedTimeSinceLastUpdate -= timePerFrame;
@@ -240,7 +235,7 @@ int main()
 			window.draw(collisionBall2);
 			break;
 		case 2:
-			window.draw(test);
+			window.draw(airTestBall);
 			break;
 		case 3:
 			for (int i = 0; i < collisionBalls.size(); i++)
@@ -248,7 +243,7 @@ int main()
 				window.draw(collisionBalls[i]);
 			}
 		case 4:
-			window.draw(test);
+			window.draw(airTestBall);
 			break;
 		break;
 		}

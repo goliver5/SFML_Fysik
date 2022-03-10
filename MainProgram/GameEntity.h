@@ -16,6 +16,7 @@ private:
 	sf::Vector2f velocity;
 	bool isAlive;
 	int radius;
+	float fps;
 protected:
 	void moveSprite();
 public:
@@ -23,14 +24,11 @@ public:
 	virtual~GameEntity();
 	bool collideWith(const GameEntity& other);
 
-	void increaseScale();
+	void setFPS(float fps);
 	bool collideWithRect(const sf::RectangleShape other);
 	bool collideWithFloat(const sf::FloatRect& other);
 	void setPosition(float xPos, float yPos);
-	void Spawn(float xPos, float yPos); //sets isAlive = true
-	bool getIsSpawned()const;
 	sf::FloatRect getBounds()const;
-	void disapear();//use if they need to despawn
 	float getWindowWidth();
 	float getWindowHeight();
 	float getSpeed();

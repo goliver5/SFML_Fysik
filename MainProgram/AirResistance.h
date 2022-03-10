@@ -20,7 +20,7 @@ void AirResistanceTest(Ball& ball, float deltaTime, bool &once1, bool &once2, bo
 {
 	ball.move();
 	float airDensity = 1.225;			//Density of air
-	float mass = 1;
+	float mass = ball.getWeight();
 
 	//Reduce the text amount
 	float ballRadius = ball.getRadius();
