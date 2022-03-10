@@ -15,7 +15,7 @@ void InitializeCollisionTest2(Ball& ball1, Ball& ball2)
 	ball1.setPosition(500.0f, 310.0f);
 	ball2.setPosition(300.0f, 300.0f);
 
-	ball1.setVelocity(sf::Vector2f(-2.0f, 0.0f));
+	ball1.setVelocity(sf::Vector2f(-1.0f, 0.0f));
 	ball2.setVelocity(sf::Vector2f(2.0f, 0.0f));
 }
 
@@ -133,7 +133,7 @@ void inelasticCollision(Ball& ball1, Ball& ball2)
 	sf::Vector2f vP1 = ball1.getVelocity() - vN1;
 	sf::Vector2f vP2 = ball2.getVelocity() - vN2;
 
-	float e = 0.5; //om e like med noll så är den fullständigt oelastisk, för elastiska kollisioner är allt e = 1
+	float e = 1.0f; //om e like med noll så är den fullständigt oelastisk, för elastiska kollisioner är allt e = 1
 	float masstemp = (massball1 - (massball2 * e));
 	float masstempNegative = (massball2 - (e * massball1));
 	float massPositive = massball1 + massball2;
