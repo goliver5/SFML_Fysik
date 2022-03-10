@@ -131,7 +131,7 @@ void inelasticCollision(Ball& ball1, Ball& ball2)
 	sf::Vector2f vP1 = ball1.getVelocity() - vN1;
 	sf::Vector2f vP2 = ball2.getVelocity() - vN2;
 
-	float e = 1.0f; //om e like med noll så är den fullständigt oelastisk, för elastiska kollisioner är allt e = 1
+	float e = 0.9f; //om e like med noll så är den fullständigt oelastisk, för elastiska kollisioner är allt e = 1
 	float masstemp = (massball1 - (massball2 * e));
 	float masstempNegative = (massball2 - (e * massball1));
 	float massPositive = massball1 + massball2;
